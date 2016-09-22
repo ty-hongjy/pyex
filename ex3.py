@@ -1,4 +1,4 @@
-import turtle 
+import turtle
 import time
 
 turtle.speed("fastest")
@@ -9,7 +9,7 @@ for x in range(100):
 	turtle.forward(2*x)
 	turtle.left(90)
 
-time.sleep(3)
+time.sleep(30)
 
 
 #done()
