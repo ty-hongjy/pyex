@@ -15,7 +15,7 @@ for x in range(400):
 	val = input()
 
 TT.tracer(True)
-val = input()
+val = input("end:")
 
 #time.sleep(30)
 #done()
