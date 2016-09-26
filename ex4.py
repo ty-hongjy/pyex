@@ -12,7 +12,8 @@ for x in range(400):
 	TT.forward(2*x)
 	TT.color(colors[x%4])
 	TT.left(91)
-	val = input()
+	print("x:",x)
+	val = input("next:")
 
 TT.tracer(True)
 val = input("end:")
