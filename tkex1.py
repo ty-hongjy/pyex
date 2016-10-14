@@ -65,4 +65,10 @@ lb.pack()
 b3=tk.Button(window,text="show selection",width=15,height=2,command=show_sel)
 b3.pack()
 
+
+rb=tk.Radiobutton(window,text="show selection",width=15,height=2,command=show_sel)
+rb.pack()
+
 window.mainloop()
+
+
