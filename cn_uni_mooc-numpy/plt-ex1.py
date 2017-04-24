@@ -26,7 +26,7 @@ plt.hist(a,30,normed=1,histtype='stepfilled')
 #plt.show()
 
 #plt.subplot(2,2,4)
-plt.figure()
+plt.figure(num=3,figsize=(8,6))
 plt.plot(10*np.random.randn(1000),10*np.random.randn(1000),'ro')
 plt.title('Simple Scatter')
 plt.show()
