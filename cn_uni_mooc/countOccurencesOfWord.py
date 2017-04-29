@@ -85,26 +85,28 @@ def main():
     wordCounts = {}     
     for line in infile:         
         processLine(line.lower(), wordCounts)              
-        #从字典中获取数据对     
-        pairs = list(wordCounts.items())     
-        #列表中的数据对交换位置,数据对排序     
-        items = [[x,y]for (y,x)in pairs]      
-        items.sort()      
-        #输出count个数词频结果     
-        for i in range(len(items)-1, len(items)-count-1, -1):        
-            print(items[i][1]+"\t"+str(items[i][0]))         
-            data.append(items[i][0])         
-            words.append(items[i][1])              
+    #从字典中获取数据对     
+    pairs = list(wordCounts.items())
+#    print(wordCounts)
+#    print(pairs)
+    #列表中的数据对交换位置,数据对排序     
+    items = [[x,y]for (y,x)in pairs]      
+    items.sort()      
+    #输出count个数词频结果     
+    for i in range(len(items)-1, len(items)-count-1, -1):        
+        print(items[i][1]+"\t"+str(items[i][0]))         
+        data.append(items[i][0])         
+        words.append(items[i][1])              
     
     infile.close()          
     
     #根据词频结果绘制柱状图     
-    turtle.title('词频结果柱状图')     
-    turtle.setup(900, 750, 0, 0)     
-    t = turtle.Turtle()     
-    t.hideturtle()     
-    t.width(3)     
-    drawGraph(t)          
+#    turtle.title('词频结果柱状图')     
+#    turtle.setup(900, 750, 0, 0)     
+#    t = turtle.Turtle()     
+#    t.hideturtle()     
+#    t.width(3)     
+#    drawGraph(t)          
     
 #调用main()函数 
 if __name__ == '__main__':     
