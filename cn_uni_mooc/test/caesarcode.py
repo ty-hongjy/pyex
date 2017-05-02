@@ -29,7 +29,7 @@ def coding(var):
                 retString=retString+dict1[ch]
             elif ch in dict2:
                 retString=retString+dict2[ch]
-                
+
     print(retString)            
     return retString
 
@@ -37,5 +37,3 @@ if __name__ == "__main__":
 #    line="The Zen of Python"
     line=input()
     coding(line)
-    
-    
