@@ -22,8 +22,8 @@ def replacePunctuations(line):
     return line 
 
 def main():   
-    line="this is a python and Python"
-#    line=input()
+#    line="this is a python and Python"
+    line=input()
     wordCounts = {}     
     processLine(line.lower(), wordCounts)              
     items = sorted(list(wordCounts.items()),key=itemgetter(1),reverse=True)
