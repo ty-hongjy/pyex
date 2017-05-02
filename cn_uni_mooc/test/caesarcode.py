@@ -4,6 +4,7 @@ Created on Sat Apr  8 09:00:46 2017
 
 @author: hongjy
 """
+
 originString='abcdefghijklmnopqrstuvwxyz'
 newString='nopqrstuvwxyzabcdefghijklm'
 
@@ -31,7 +32,7 @@ def coding(var):
                 retString=retString+dict2[ch]
 
     print(retString)            
-    return retString
+#    return retString
 
 if __name__ == "__main__":
 #    line="The Zen of Python"
