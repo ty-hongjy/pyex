@@ -23,7 +23,8 @@ for i in range(0,26):
 def coding(var):
     retString=""
     for ch in var:
-        if ch in " ~@#$%^&*()_-+=<>?/,.:;{}[]|\'""":
+#        if ch in " ~@#$%^&*()_-+=<>?/,.:;{}[]|\'""":
+        if (ch not in dict1) and (ch not in dict2):
             retString=retString+ch
         else:
             if ch in dict1:
@@ -37,4 +38,7 @@ def coding(var):
 if __name__ == "__main__":
 #    line="The Zen of Python"
     line=input()
+    if len(line)<=0:
+        exit
+
     coding(line)

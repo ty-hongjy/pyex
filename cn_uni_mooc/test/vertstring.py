@@ -6,6 +6,12 @@ Created on Sat Apr  8 09:00:46 2017
 """
     
 #if __name__ == "__main__":
-linelist=list(input())
+line=input()
+if len(line)<=0:
+    exit
+    
+linelist=list(line)
+#print(linelist)
 for ch in linelist:
-    print(ch+"\n")
+#    print(ch+'\n')
+    print(ch,'\n')
