@@ -18,4 +18,5 @@ plt.plot(a,f(a))
  
 plt.subplot(2,1,2)
 plt.plot(a, np.cos(np.pi*a), 'r--')
+plt.savefig("test",dip=600)
 plt.show()
