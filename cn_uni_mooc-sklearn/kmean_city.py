@@ -17,6 +17,7 @@ def loadData(filePath):
         items = line.strip().split(",")
         retCityName.append(items[0])
         retData.append([float(items[i]) for i in range(1,len(items))])
+    
     return retData,retCityName
 
 if __name__ == '__main__':
@@ -24,10 +25,21 @@ if __name__ == '__main__':
     km = KMeans(n_clusters=4)
     label = km.fit_predict(data)
     expenses = np.sum(km.cluster_centers_,axis=1)
-    #print(expenses)
+
+    print("km:")
+    print(km)
+    print("label:")
+    print(label)
+    for km1 in label:
+        print(km1)
+    print("expenses:")
+    print(expenses)
+
     CityCluster = [[],[],[],[]]
     for i in range(len(cityName)):
         CityCluster[label[i]].append(cityName[i])
+    print("CityCluster:")
+    print(CityCluster)
     for i in range(len(CityCluster)):
         print("Expenses:%.2f" % expenses[i])
         print(CityCluster[i])
