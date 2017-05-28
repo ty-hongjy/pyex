@@ -32,6 +32,7 @@ labels = db.labels_
  
 print('Labels:')
 print(labels)
+print(labels.flatten())
 raito=len(labels[labels[:] == -1]) / len(labels)
 print('Noise raito:',format(raito, '.2%'))
  
@@ -45,7 +46,3 @@ for i in range(n_clusters_):
     print(list(X[labels == i].flatten()))
      
 plt.hist(X,24)
-
-
-
-
