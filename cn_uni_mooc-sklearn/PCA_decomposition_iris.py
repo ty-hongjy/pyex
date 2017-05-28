@@ -12,9 +12,12 @@ from sklearn.datasets import load_iris
 data = load_iris()
 y = data.target
 X = data.data
+print(data.target)
+print(data.data)
 pca = PCA(n_components=2)
+print(pca)
 reduced_X = pca.fit_transform(X)
- 
+print(reduced_X) 
 red_x, red_y = [], []
 blue_x, blue_y = [], []
 green_x, green_y = [], []
