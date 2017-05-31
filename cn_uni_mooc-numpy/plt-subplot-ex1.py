@@ -22,11 +22,16 @@ a=np.random.normal(mu,sigma,size=1000)
 #plt.figure(3)
 plt.subplot(2,2,2)
 plt.hist(a,30,normed=1,histtype='stepfilled')
+#plt.xticks(())
+#plt.yticks(())
 
 
 #plt.figure(4)
 plt.subplot(2,2,4)
 plt.plot(10*np.random.randn(1000),10*np.random.randn(1000),'ro')
+#plt.xticks(())
+#plt.yticks(())
+
 plt.title('Simple Scatter')
 plt.savefig("test",dip=600)
 plt.show()
