@@ -4,7 +4,7 @@ Created on Wed May 31 16:58:47 2017
 
 @author: hongjy
 """
-
+import time
 import pandas as pd
 import numpy as np  
  
@@ -34,6 +34,8 @@ def load_datasets(feature_paths, label_paths):
     return feature, label
  
 if __name__ == '__main__':
+    ISOTIMEFORMAT='%Y-%m-%d %X' #add by me
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
     ''' 数据路径 '''
     featurePaths = ['A/A.feature','B/B.feature','C/C.feature','D/D.feature','E/E.feature']
     labelPaths = ['A/A.label','B/B.label','C/C.label','D/D.label','E/E.label']
@@ -45,20 +47,25 @@ if __name__ == '__main__':
     print('Start training knn')
     knn = KNeighborsClassifier().fit(x_train, y_train)
     print('Training done')
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
+
     answer_knn = knn.predict(x_test)
     print('Prediction done')
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
      
     print('Start training DT')
     dt = DecisionTreeClassifier().fit(x_train, y_train)
     print('Training done')
     answer_dt = dt.predict(x_test)
     print('Prediction done')
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
      
     print('Start training Bayes')
     gnb = GaussianNB().fit(x_train, y_train)
     print('Training done')
     answer_gnb = gnb.predict(x_test)
     print('Prediction done')
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
      
     print('\n\nThe classification report for knn:')
     print(classification_report(y_test, answer_knn))
