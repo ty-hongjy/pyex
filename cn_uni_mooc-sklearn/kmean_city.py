@@ -23,8 +23,10 @@ if __name__ == '__main__':
     data,cityName = loadData('31省市居民家庭消费水平-city.txt')
     km = KMeans(n_clusters=4)
     label = km.fit_predict(data)
+    print(label)
+    print(km.cluster_centers_)
     expenses = np.sum(km.cluster_centers_,axis=1)
-    #print(expenses)
+    print(expenses)
     CityCluster = [[],[],[],[]]
     for i in range(len(cityName)):
         CityCluster[label[i]].append(cityName[i])
