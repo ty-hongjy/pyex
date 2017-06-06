@@ -10,7 +10,6 @@ import sklearn.cluster as skc
 from sklearn import metrics
 import matplotlib.pyplot as plt
  
- 
 mac2id=dict()
 onlinetimes=[]
 f=open('学生月上网时间分布-TestData.txt',encoding='utf-8')
