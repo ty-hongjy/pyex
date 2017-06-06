@@ -23,8 +23,8 @@ def loadData(filePath):
  
 imgData,row,col = loadData('bull.jpg')
 label = KMeans(n_clusters=4).fit_predict(imgData)
- 
 label = label.reshape([row,col])
+
 pic_new = image.new("L", (row, col))
 for i in range(row):
     for j in range(col):
