@@ -45,7 +45,3 @@ for i in range(n_clusters_):
     print(list(X[labels == i].flatten()))
      
 plt.hist(X,24)
-
-
-
-
