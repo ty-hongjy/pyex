@@ -67,5 +67,4 @@ def main():
     getStockList(slist,stock_list_url)
     getStockInfo(slist,stock_info_url,output_file)
 
->>>>>>> 6d1daa99f85a3b161a31efe149b78624260f5c66
 main()
