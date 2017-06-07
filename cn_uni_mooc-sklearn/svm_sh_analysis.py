@@ -12,7 +12,7 @@ from sklearn import cross_validation
  
 data=pd.read_csv('stock/000777.csv',encoding='gbk',parse_dates=[0],index_col=0)
 data.sort_index(0,ascending=True,inplace=True)
- 
+
 dayfeature=150
 featurenum=5*dayfeature
 x=np.zeros((data.shape[0]-dayfeature,featurenum+1))
@@ -28,7 +28,7 @@ for i in range(0,data.shape[0]-dayfeature):
         y[i]=1
     else:
         y[i]=0          
- 
+
 clf=svm.SVC(kernel='rbf')
 result = []
 for i in range(5):
