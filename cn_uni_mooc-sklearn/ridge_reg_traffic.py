@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
 
 def main():
-    data = np.genfromtxt('岭回归.csv', delimiter=',')
+    data = np.genfromtxt('data.txt', delimiter=',')
     plt.plot(data[:,5])
     plt.show()
     x = data[:,:5]
     y = data[:,5]
-    poly = PolynomialFeatures(9)
+    poly = PolynomialFeatures(6)
     x = poly.fit_transform(x)
 #    
 #    train_x, test_x, train_y, test_y = \
