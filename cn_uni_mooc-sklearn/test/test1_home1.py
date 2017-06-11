@@ -7,8 +7,6 @@ Created on Wed May 31 16:58:47 2017
 import time
 import pandas as pd
 import numpy as np  
- 
-#from sklearn.cluster import KMeans
 
 from sklearn.preprocessing import Imputer
 from sklearn.cross_validation import train_test_split 
@@ -26,7 +24,6 @@ def load_datasets(filepaths):
     print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
     feature = np.ndarray(shape=(0,54))
     label = np.ndarray(shape=(0,1))
-#    for file in feature_paths:
     df1 = pd.read_table(filepaths, delimiter=' ', na_values='?', header=None)
     if len(df1.columns)==55:
         df=df1.drop(54,axis=1)
@@ -38,14 +35,9 @@ def load_datasets(filepaths):
     df = imp.transform(df)
     feature = np.concatenate((feature, df))
 #    print(feature.shape) 
-#    for file in label_paths:
-#        df = pd.read_table(file, header=None)
-#        label = np.concatenate((label, df))
 
     if len(df1.columns)==55:         
-#    if type=='train':
         label = df1[54]
-#        print(label.shape)
         print("end loaded data")
         print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
         return feature, label
@@ -53,7 +45,6 @@ def load_datasets(filepaths):
         print("end loaded data")
         print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
         return feature
-        
 
 def main():
     ''' 数据路径 '''
@@ -79,13 +70,15 @@ def main():
     dt = DecisionTreeClassifier().fit(x_train, y_train)
     print('Training done')
     answer_dt = dt.predict(x_test)
+    print(len(answer_dt))
     print('Prediction done')
     print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
-     
+
     print('Start training Bayes')
     gnb = GaussianNB().fit(x_train, y_train)
     print('Training done')
     answer_gnb = gnb.predict(x_test)
+    print(len(answer_gnb))
     print('Prediction done')
     print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
  
