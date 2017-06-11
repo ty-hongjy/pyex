@@ -1,3 +1,6 @@
-1、先进行无监督学习，用kmean来完成label数据，先生成label数据，生成train_label_data.txt
-2、合并feature和label，生成fl.txt
-3、采用三种分类方式进行训练，K近邻分类器(KNN)，决策树(DecisionTree)，朴素贝叶斯(GussianNB)
+1、技术路径：采用三种分类方式进行训练，K近邻分类器(KNN)，决策树(DecisionTree)，朴素贝叶斯(GussianNB)
+2、先通过panda.read_table读入train_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature；将55列数据生成为label，并返回feature和label。
+3、通过panda.read_table读入test_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature。
+4、通过“K近邻分类器(KNN)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_1.txt。
+5、通过“决策树(DecisionTree)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_2.txt。
+6、通过“朴素贝叶斯(GussianNB)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_3.txt。
