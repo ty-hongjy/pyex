@@ -75,14 +75,15 @@ def main():
     print('Prediction done')
     print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
     return  None     
-    print('Start training DT')
+    
+    print('Start DT training')
     dt = DecisionTreeClassifier().fit(x_train, y_train)
     print('Training done')
     answer_dt = dt.predict(x_test)
     print('Prediction done')
     print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
      
-    print('Start training Bayes')
+    print('Start Bayes training')
     gnb = GaussianNB().fit(x_train, y_train)
     print('Training done')
     answer_gnb = gnb.predict(x_test)
