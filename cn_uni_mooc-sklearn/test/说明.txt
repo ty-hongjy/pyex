@@ -1,6 +1,8 @@
 1、技术路径：采用三种分类方式进行训练，K近邻分类器(KNN)，决策树(DecisionTree)，朴素贝叶斯(GussianNB)
 2、先通过panda.read_table读入train_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature；将55列数据生成为label，并返回feature和label。
 3、通过panda.read_table读入test_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature。
-4、通过“K近邻分类器(KNN)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_1.txt。
-5、通过“决策树(DecisionTree)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_2.txt。
-6、通过“朴素贝叶斯(GussianNB)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_3.txt。
+4、使用Imputer函数，通过设定strategy参数为‘mean’，使用平均值对缺失数据进行补全。fit()函数用于训练预处理器，transform()函数用于生成预处理结果。
+5、使用train_test_split()函数，通过设置测试集比例test_size为0，将数据随机打乱，便于后续分类器的初始化和训练。
+5、通过“K近邻分类器(KNN)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_1.txt。
+6、通过“决策树(DecisionTree)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_2.txt。
+7、通过“朴素贝叶斯(GussianNB)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_3.txt。
