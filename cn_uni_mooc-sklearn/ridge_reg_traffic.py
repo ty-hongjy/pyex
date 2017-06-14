@@ -11,20 +11,23 @@ from sklearn import cross_validation
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
 
-def main():
-#    data = np.genfromtxt('岭回归归_noheader.csv', delimiter=',')
-#    plt.plot(data[:,5])
-#    plt.show()
-#    x = data[:,:5]
-#    y = data[:,5]
-#    poly = PolynomialFeatures(6)
+is_noheader=True #采用不同的方法读取CSV数据文件
 
-    data = np.genfromtxt('岭回归.csv',delimiter=',',skip_header=1,usecols=(1,2,3,4,5))#使用numpy方法读取数据,skip_header:跳过前n行
-    plt.plot(data[:,4])
-    plt.show()
-    x = data[:,:4]
-    y = data[:,4]
-    poly = PolynomialFeatures(5)
+def main():
+    if is_noheader:
+        data = np.genfromtxt('岭回归_noheader.csv', delimiter=',')
+        plt.plot(data[:,5])
+        plt.show()
+        x = data[:,:5]
+        y = data[:,5]
+        poly = PolynomialFeatures(6)
+    else:
+        data = np.genfromtxt('岭回归.csv',delimiter=',',skip_header=1,usecols=(1,2,3,4,5))#使用numpy方法读取数据,skip_header:跳过前n行
+        plt.plot(data[:,4])
+        plt.show()
+        x = data[:,:4]
+        y = data[:,4]
+        poly = PolynomialFeatures(5)
 
     x = poly.fit_transform(x)
     
