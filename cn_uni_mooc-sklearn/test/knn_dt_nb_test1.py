@@ -19,7 +19,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 
 ISOTIMEFORMAT='%Y-%m-%d %X' #add by me
-
+_is_verify=False
+#_is_verify=True
+ 
 def load_datasets(filepaths):
 #def load_datasets(filepaths, label_paths):
     print("start loading data:"+filepaths)
@@ -60,43 +62,90 @@ def main():
     trainfilePaths = 'test_data\data_train.txt'
     testfilePaths = 'test_data\data_test.txt'
     ''' 读入数据  '''
-    x_train,y_train = load_datasets(trainfilePaths)
-    x_test = load_datasets(testfilePaths)
-    x_train, x_, y_train, y_ = train_test_split(x_train, y_train, test_size = 0.0)
+    x,y = load_datasets(trainfilePaths)
+#    x_train,y_train = load_datasets(trainfilePaths)
+#    x_train, x_, y_train, y_ = train_test_split(x_train, y_train, test_size = 0.0)
+#step 1 take x and y as train_data and test_data
+    if _is_verify:
+        print('Step 1')
+        x_train, x_test, y_train, y_test = \
+            train_test_split(x, y, test_size=0.3, random_state=0)
+    #    x_train, x_test, y_train, y_test = \
+    #        cross_validation.train_test_split(x, y, test_size=0.3, random_state=0)
+        print('Start knn training')
+        knn = KNeighborsClassifier().fit(x_train, y_train)
+        print('Training done')
+        print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) 
+    
+        print('Start knn predict')
+        answer_knn = knn.predict(x_test)
+        print(len(answer_knn))
+    #    pd.write_table(answer_knn,'module2.txt', delimiter=' ', na_values='?')
+        print('Prediction done')
+        print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+    #    return  None     
+        
+        print('Start DT training')
+        dt = DecisionTreeClassifier().fit(x_train, y_train)
+        print('Training done')
+        answer_dt = dt.predict(x_test)
+    #    pd.write_table(answer_dt,'module2.txt', delimiter=' ', na_values='?')
+        print('Prediction done')
+        print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+         
+        print('Start Bayes training')
+        gnb = GaussianNB().fit(x_train, y_train)
+        print('Training done')
+        answer_gnb = gnb.predict(x_test)
+    #    pd.write_table(answer_gnb,'module3.txt', delimiter=' ', na_values='?')
+        print('Prediction done')
+        print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+          
+        print('\n\nThe classification report for knn:')
+        print(classification_report(y_test, answer_knn))
+        print('\n\nThe classification report for DT:')
+        print(classification_report(y_test, answer_dt))
+        print('\n\nThe classification report for Bayes:')
+        print(classification_report(y_test, answer_gnb))
 
+#step 2 take x and y as train_data. independ  test_data as predict_data 
+    print('Step 2')
+    x_test = load_datasets(testfilePaths)
+    print(len(x_test))
+    x_train, x_, y_train, y_ = train_test_split(x, y, test_size = 0.0)
     print('Start knn training')
     knn = KNeighborsClassifier().fit(x_train, y_train)
     print('Training done')
-    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) #add by me
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time()))) 
 
     print('Start knn predict')
     answer_knn = knn.predict(x_test)
     print(len(answer_knn))
+#    pd.write_table(answer_knn,'module2.txt', delimiter=' ', na_values='?')
+    np.savetxt('module1.txt',answer_knn,fmt='%d', delimiter=',')
     print('Prediction done')
-    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
-    return  None     
-    
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+#    return  None     
+
     print('Start DT training')
     dt = DecisionTreeClassifier().fit(x_train, y_train)
     print('Training done')
     answer_dt = dt.predict(x_test)
+#    pd.write_table(answer_dt,'module2.txt', delimiter=' ', na_values='?')
+    print(len(answer_dt))
+    np.savetxt('module2.txt',answer_dt,fmt='%d', delimiter=',')
     print('Prediction done')
-    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
-     
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+
     print('Start Bayes training')
     gnb = GaussianNB().fit(x_train, y_train)
     print('Training done')
     answer_gnb = gnb.predict(x_test)
+    print(len(answer_gnb))
+#    pd.write_table(answer_gnb,'module3.txt', delimiter=' ', na_values='?')
+    np.savetxt('module3.txt',answer_gnb,fmt='%d', delimiter=',')
     print('Prediction done')
-    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))#add by me
- 
-     
-#    print('\n\nThe classification report for knn:')
-#    print(classification_report(y_test, answer_knn))
-#    print('\n\nThe classification report for DT:')
-#    print(classification_report(y_test, answer_dt))
-#    print('\n\nThe classification report for Bayes:')
-#    print(classification_report(y_test, answer_gnb))
-    
+    print(time.strftime(ISOTIMEFORMAT,time.localtime(time.time())))
+
 if __name__ == '__main__':
-    main()    
+    main()
