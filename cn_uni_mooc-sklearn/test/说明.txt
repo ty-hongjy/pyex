@@ -2,7 +2,61 @@
 2、先通过panda.read_table读入train_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature；将55列数据生成为label，并返回feature和label。
 3、通过panda.read_table读入test_data.txt文件，需注意分隔符为空格。将前54列数据生成为feature。
 4、使用Imputer函数，通过设定strategy参数为‘mean’，使用平均值对缺失数据进行补全。fit()函数用于训练预处理器，transform()函数用于生成预处理结果。
-5、使用train_test_split()函数，通过设置测试集比例test_size为0，将数据随机打乱，便于后续分类器的初始化和训练。
-5、通过“K近邻分类器(KNN)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_1.txt。
-6、通过“决策树(DecisionTree)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_2.txt。
-7、通过“朴素贝叶斯(GussianNB)”对数据进行训练，再通过test_x进行预测，并获得预测结果存入model_3.txt。
+针对题目要求作如下二步操作：
+
+第一步：利用含有标签的数据进行训练和测试。
+由于测试数据没有标签，所以先用训练数据进行划分训练数据和测试数据。
+5、使用train_test_split(x, y, test_size=0.3, random_state=0)函数，通过设置测试集比例test_size为0.3，将数据随机打乱，便于后续分类器的初始化和训练。
+6、分别采用K近邻分类器(KNN)，决策树(DecisionTree)，朴素贝叶斯(GussianNB)三种分类器的初始化和训练
+7、然后进行预测和分析获得如下结果：
+
+The classification report for knn:
+             precision    recall  f1-score   support
+
+          1       0.96      0.96      0.96     44527
+          2       0.96      0.97      0.96     59469
+          3       0.93      0.96      0.95      7542
+          4       0.90      0.76      0.82       574
+          5       0.89      0.84      0.87      1982
+          6       0.92      0.88      0.90      3645
+          7       0.97      0.96      0.96      4274
+
+avg / total       0.96      0.96      0.96    122013
+---------------------------------------------------------
+
+The classification report for DT:
+             precision    recall  f1-score   support
+
+          1       0.92      0.92      0.92     44527
+          2       0.93      0.93      0.93     59469
+          3       0.91      0.91      0.91      7542
+          4       0.81      0.78      0.80       574
+          5       0.77      0.78      0.78      1982
+          6       0.83      0.84      0.83      3645
+          7       0.93      0.93      0.93      4274
+
+avg / total       0.92      0.92      0.92    122013
+---------------------------------------------------------
+
+The classification report for Bayes:
+             precision    recall  f1-score   support
+
+          1       0.50      0.78      0.61     44527
+          2       0.84      0.16      0.27     59469
+          3       0.44      0.81      0.57      7542
+          4       0.22      0.82      0.34       574
+          5       0.08      0.62      0.14      1982
+          6       0.37      0.08      0.14      3645
+          7       0.37      0.82      0.51      4274
+
+avg / total       0.65      0.46      0.41    122013
+---------------------------------------------------------
+
+通过The classification report可以看出knn效果最好，DecisionTree效果也比较好，Bayes效果最差。
+
+第二步：利用含有标签的数据重新进行初始化和训练。
+8、重新通过panda.read_table读入train_data和test_data.
+8、使用train_test_split()函数，通过设置测试集比例test_size为0，将数据随机打乱，便于后续分类器的初始化和训练。
+9、通过“K近邻分类器(KNN)”对数据进行训练，再通过对test_x进行预测，并获得预测结果存入model_1.txt。
+10、通过“决策树(DecisionTree)”对数据进行训练，再通过对test_x进行预测，并获得预测结果存入model_2.txt。
+11、通过“朴素贝叶斯(GussianNB)”对数据进行训练，再通过对test_x进行预测，并获得预测结果存入model_3.txt。
