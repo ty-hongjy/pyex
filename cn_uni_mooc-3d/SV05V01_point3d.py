@@ -17,4 +17,13 @@ s = 2 + np.sin(t)
  
 #对数据进行可视化
 points = mlab.points3d(x, y, z, s, colormap="Reds", scale_factor=.25)
-mlab.show()
+#mlab.show()
+s=mlab.gcf()
+source=s.children[0]
+manager=source.children[0]
+colors=manager.children[0]
+#colors.scalar_lut_manager.lut_mode='Blues'
+
+surface=colors.children[0]
+#surface.actor.property.representation='wireframe'
+#surface.actor.property.color=0.6
