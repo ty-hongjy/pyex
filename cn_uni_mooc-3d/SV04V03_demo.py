@@ -19,4 +19,25 @@ z = r*sin(phi)*sin(theta)
  
 #对该数据进行三维可视化
 s = mlab.mesh(x, y, z)
-mlab.show()
+#mlab.show()
+
+s=mlab.gcf()
+print(s.scene.background)
+source=s.children[0]
+print(repr(source))
+print(repr(source.name))
+
+print(repr(source.data.points))
+print(repr(source.data.point_data.scalars))
+print(source.name)
+
+manager=source.children[0]
+colors=manager.children[0]
+colors.scalar_lut_manager.lut_mode='Blues'
+colors.scalar_lut_manager.show_legend=True
+
+surface=colors.children[0]
+surface.actor.property.representation='wireframe'
+surface.actor.property.opacity=0.6
+
+
