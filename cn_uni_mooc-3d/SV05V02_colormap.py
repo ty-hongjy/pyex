@@ -14,4 +14,5 @@ z = 100 * np.sin(x * y) / (x * y)
 mlab.figure(bgcolor=(1, 1, 1))
 surf = mlab.surf(z, colormap='cool')
 # 更新视图并显示出来
-mlab.show()
+#mlab.show()
+
