@@ -10,7 +10,9 @@ from mayavi import mlab
  
 ######场景初始化######
 figure = mlab.gcf()
- 
+
+#disable render all balls before builder 
+figure.scene.disable_render=True 
 # 用mlab.points3d建立红色和白色小球的集合
 x1, y1, z1 = np.random.random((3, 10))
 red_glyphs = mlab.points3d(x1, y1, z1, color=(1, 0, 0),
@@ -26,6 +28,9 @@ outline.bounds = (x1[0] - 0.1, x1[0] + 0.1,
                   y1[0] - 0.1, y1[0] + 0.1,
                   z1[0] - 0.1, z1[0] + 0.1)
  
+#enable render all balls after builder 
+figure.scene.disable_render=False
+
 ######处理选取事件#####
 # 获取构成一个红色小球的顶点列表
 glyph_points = red_glyphs.glyph.glyph_source.glyph_source.output.points.to_array()
@@ -43,5 +48,7 @@ def picker_callback(picker):
                               z - 0.1, z + 0.1)
  
 picker = figure.on_mouse_pick(picker_callback)
+picker.tolerance=0.01
+
 mlab.title('Click on red balls')
 mlab.show()
