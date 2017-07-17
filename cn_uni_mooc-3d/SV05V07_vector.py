@@ -8,9 +8,9 @@ import numpy as np
 from mayavi import mlab
 from mayavi.tools import pipeline
 
-_MODE_='normal'
+#_MODE_='normal'
 #_MODE_='mask'
-#_MODE_='flow'
+_MODE_='flow'
 #_MODE_='iso'
 #_MODE_='cut'
 #_MODE_='comp'
@@ -20,12 +20,12 @@ u = np.sin(np.pi*x) * np.cos(np.pi*z)
 v = -2*np.sin(np.pi*y) * np.cos(2*np.pi*z)
 w = np.cos(np.pi*x)*np.sin(np.pi*z) + np.cos(np.pi*y)*np.sin(2*np.pi*z)
 
-print("ok")
+#print("ok")
 src=mlab.pipeline.vector_field(u,v,w)
 
 if _MODE_=='mask':
     mlab.pipeline.vectors(src,mask_points=10,scale_factor=2.0) 
-#    mlab.quiver3d(u,v,w)
+
 elif _MODE_=='cut':
     mlab.pipeline.vector_cut_plane(src,mask_points=10,scale_factor=2.0) 
 
@@ -41,6 +41,7 @@ elif _MODE_=='flow':
 
 elif _MODE_=='comp':
     pass
+
 else:
     mlab.quiver3d(u,v,w)
     mlab.outline()
