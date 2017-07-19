@@ -97,7 +97,7 @@ if __name__ == '__main__':
     """
     demo = EditorDemo()
     # 一般写法
-trait_list = []
+    trait_list = []
     for s in trait_defines.split('\n'):  # 按行分割字符串
         if s.split('#')[0].strip():  # 判断s中是否存在可执行函数
             trait_list.append(s.split('#')[0])  # 去掉注释
