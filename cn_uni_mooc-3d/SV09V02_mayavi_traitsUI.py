@@ -30,7 +30,6 @@ class MyModel(HasTraits):
                         tube_radius=0.025, colormap='Spectral')
         else:#如果数据有变化，将数据更新即重新赋值
             self.plot.mlab_source.set(x=x, y=y, z=z, scalars=t)
- 
     # 建立视图布局
     view = View(Item('scene', editor=SceneEditor(scene_class=MayaviScene),
                      height=250, width=300, show_label=False),
