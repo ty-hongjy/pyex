@@ -2,7 +2,7 @@
 """
 Created on Tue Dec  5 09:52:57 2017
 
-@author: Administrator
+@author: ty-hongjy
 """
 
 import math
@@ -20,7 +20,6 @@ def func(a,b,c,d):
     
 
 def main():
-  
   for n in range(11,101,1):  
     func(3,7,0,n)
   
