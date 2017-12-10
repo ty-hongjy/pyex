@@ -20,7 +20,10 @@ def func(a,b,c,d):
     
 
 def main():
+<<<<<<< HEAD
   print("3,7")
+=======
+>>>>>>> 5be1c0c99092a4e6b8813d90e2dbc4f67ba996e4
   for n in range(11,101,1):  
     func(3,7,0,n)
   
@@ -30,3 +33,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+<<<<<<< HEAD
+=======
+
+  
+>>>>>>> 5be1c0c99092a4e6b8813d90e2dbc4f67ba996e4
