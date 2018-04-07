@@ -17,9 +17,9 @@ Y_c = [['red' if y else 'blue'] for y in Y_]
 #对数据集X和标签Y进行shape整理，第一个元素为-1表示，随第二个参数计算得到，第二个元素表示多少列，把X整理为n行2列，把Y整理为n行1列
 X = np.vstack(X).reshape(-1,2)
 Y_ = np.vstack(Y_).reshape(-1,1)
-print X
-print Y_
-print Y_c
+print( X)
+print( Y_)
+print( Y_c)
 #用plt.scatter画出数据集X各行中第0列元素和第1列元素的点即各行的（x0，x1），用各行Y_c对应的值表示颜色（c是color的缩写） 
 plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
 plt.show()
@@ -65,7 +65,7 @@ with tf.Session() as sess:
 		sess.run(train_step, feed_dict={x:X[start:end], y_:Y_[start:end]})
 		if i % 2000 == 0:
 			loss_mse_v = sess.run(loss_mse, feed_dict={x:X, y_:Y_})
-			print("After %d steps, loss is: %f" %(i, loss_mse_v))
+			print(("After %d steps, loss is: %f" %(i, loss_mse_v)))
     #xx在-3到3之间以步长为0.01，yy在-3到3之间以步长0.01,生成二维网格坐标点
 	xx, yy = np.mgrid[-3:3:.01, -3:3:.01]
 	#将xx , yy拉直，并合并成一个2列的矩阵，得到一个网格坐标点的集合
@@ -74,10 +74,10 @@ with tf.Session() as sess:
 	probs = sess.run(y, feed_dict={x:grid})
 	#probs的shape调整成xx的样子
 	probs = probs.reshape(xx.shape)
-	print "w1:\n",sess.run(w1)
-	print "b1:\n",sess.run(b1)
-	print "w2:\n",sess.run(w2)	
-	print "b2:\n",sess.run(b2)
+	print( "w1:\n",sess.run(w1))
+	print( "b1:\n",sess.run(b1))
+	print( "w2:\n",sess.run(w2))
+	print( "b2:\n",sess.run(b2))
 
 plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c))
 plt.contour(xx, yy, probs, levels=[.5])
@@ -92,6 +92,7 @@ with tf.Session() as sess:
 	init_op = tf.global_variables_initializer()
 	sess.run(init_op)
 	STEPS = 40000
+#	STEPS = 10000
 	for i in range(STEPS):
 		start = (i*BATCH_SIZE) % 300
 		end = start + BATCH_SIZE
@@ -104,10 +105,10 @@ with tf.Session() as sess:
 	grid = np.c_[xx.ravel(), yy.ravel()]
 	probs = sess.run(y, feed_dict={x:grid})
 	probs = probs.reshape(xx.shape)
-	print "w1:\n",sess.run(w1)
-	print "b1:\n",sess.run(b1)
-	print "w2:\n",sess.run(w2)
-	print "b2:\n",sess.run(b2)
+	print( "w1:\n",sess.run(w1))
+	print( "b1:\n",sess.run(b1))
+	print( "w2:\n",sess.run(w2))
+	print( "b2:\n",sess.run(b2))
 
 plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
 plt.contour(xx, yy, probs, levels=[.5])
