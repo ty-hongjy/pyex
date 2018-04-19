@@ -1,7 +1,7 @@
 #coding:utf-8
 #0导入模块 ，生成模拟数据集
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 seed = 2 
 def generateds():
 	#基于seed产生随机数
