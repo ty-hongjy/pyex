@@ -1,7 +1,9 @@
+import os
+
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
+
 import mnist_forward
-import os
 
 BATCH_SIZE = 200
 LEARNING_RATE_BASE = 0.1
@@ -46,7 +48,7 @@ def backward(mnist):
 
         ckpt = tf.train.get_checkpoint_state(MODEL_SAVE_PATH)
         if ckpt and ckpt.model_checkpoint_path:
-		    saver.restore(sess, ckpt.model_checkpoint_path)
+		       saver.restore(sess, ckpt.model_checkpoint_path)
 
         for i in range(STEPS):
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
