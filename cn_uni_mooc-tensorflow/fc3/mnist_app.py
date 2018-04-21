@@ -11,9 +11,10 @@ def restore_model(testPicArr):
         x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
         y = mnist_forward.forward(x, None)
         preValue = tf.argmax(y, 1)
-
+        print("preValue:",preValue)
     variable_averages = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
     variables_to_restore = variable_averages.variables_to_restore()
+    print("variables_to_restore:",variables_to_restore)
     saver = tf.train.Saver(variables_to_restore)
 
     with tf.Session() as sess:
@@ -42,14 +43,16 @@ def pre_pic(picName):
     nm_arr = im_arr.reshape([1, 784])
     nm_arr = nm_arr.astype(np.float32)
     img_ready = np.multiply(nm_arr, 1.0/255.0)
-
+#    print("img_ready:",img_ready)
     return img_ready
 
 def application():
-	testNum = input("input the number of test pictures:")
+	testNum1 = input("input the number of test pictures:")
+	testNum=int(testNum1)
 	for i in range(testNum):
-		testPic = raw_input("the path of test picture:")
+		testPic = input("the path of test picture:")
 		testPicArr = pre_pic(testPic)
+#		print("ok")
 		preValue = restore_model(testPicArr)
 		print( "The prediction number is:", preValue)
 
