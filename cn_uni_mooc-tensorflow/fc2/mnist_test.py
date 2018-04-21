@@ -7,7 +7,6 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 import mnist_forward
 import mnist_backward
-#import mnist_backward_new
 
 # 加载现有配置文件
 conf = configparser.ConfigParser()
