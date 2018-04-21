@@ -16,12 +16,12 @@ def generateds():
 	#对数据集X和标签Y进行形状整理，第一个元素为-1表示跟随第二列计算，第二个元素表示多少列，可见X为两列，Y为1列
 	X = np.vstack(X).reshape(-1,2)
 	Y_ = np.vstack(Y_).reshape(-1,1)
-	
+
+	print( X)
+	print( Y_)
+	print( Y_c)
+	#用plt.scatter画出数据集X各行中第0列元素和第1列元素的点即各行的（x0，x1），用各行Y_c对应的值表示颜色（c是color的缩写） 
+	plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
+	plt.show()
+
 	return X, Y_, Y_c
-	
-#print X
-#print Y_
-#print Y_c
-#用plt.scatter画出数据集X各行中第0列元素和第1列元素的点即各行的（x0，x1），用各行Y_c对应的值表示颜色（c是color的缩写） 
-#plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
-#plt.show()
