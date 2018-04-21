@@ -1,16 +1,39 @@
 import os
+import configparser
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 import mnist_forward
 
-BATCH_SIZE = 200
-LEARNING_RATE_BASE = 0.1
-LEARNING_RATE_DECAY = 0.99
-REGULARIZER = 0.0001
-STEPS = 50000
-MOVING_AVERAGE_DECAY = 0.99
+# 加载现有配置文件
+conf = configparser.ConfigParser()
+# 读取配置文件
+conf.read('parameter.ini')
+BATCH_SIZE = conf.getint('backward', 'BATCH_SIZE')
+LEARNING_RATE_BASE = conf.getfloat('backward', 'LEARNING_RATE_BASE')
+LEARNING_RATE_DECAY = conf.getfloat('backward', 'LEARNING_RATE_DECAY')
+REGULARIZER = conf.getfloat('backward', 'REGULARIZER')
+STEPS = conf.getint('backward', 'STEPS')
+MOVING_AVERAGE_DECAY = conf.getfloat('backward', 'MOVING_AVERAGE_DECAY')
+MODEL_SAVE_PATH = conf.get('backward', 'MODEL_SAVE_PATH')
+MODEL_NAME = conf.get('backward', 'MODEL_NAME')
+
+print('BATCH_SIZE:', BATCH_SIZE)
+print('LEARNING_RATE_BASE:', LEARNING_RATE_BASE)
+print('LEARNING_RATE_DECAY:', LEARNING_RATE_DECAY)
+print('REGULARIZER:', REGULARIZER)
+print('STEPS:', STEPS)
+print('MOVING_AVERAGE_DECAY:', MOVING_AVERAGE_DECAY)
+print('MODEL_SAVE_PATH:', MODEL_SAVE_PATH)
+print('MODEL_NAME:', MODEL_NAME)
+
+#BATCH_SIZE = 200
+#LEARNING_RATE_BASE = 0.1
+#LEARNING_RATE_DECAY = 0.99
+#REGULARIZER = 0.0001
+#STEPS = 50000
+#MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH="./model/"
 MODEL_NAME="mnist_model"
 
