@@ -1,12 +1,20 @@
 #coding:utf-8
 import time
+import configparser
+
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 import mnist_forward
 import mnist_backward
+#import mnist_backward_new
 
-TEST_INTERVAL_SECS = 5
+# 加载现有配置文件
+conf = configparser.ConfigParser()
+# 读取配置文件
+conf.read('parameter.ini')
+TEST_INTERVAL_SECS = conf.getint('test', 'TEST_INTERVAL_SECS')
+#TEST_INTERVAL_SECS = 5
 
 def test(mnist):
     with tf.Graph().as_default() as g:
@@ -15,6 +23,7 @@ def test(mnist):
         y = mnist_forward.forward(x, None)
 
         ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
+#        ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
         ema_restore = ema.variables_to_restore()
         saver = tf.train.Saver(ema_restore)
 		
@@ -23,6 +32,7 @@ def test(mnist):
 
         while True:
             with tf.Session() as sess:
+                ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
                 ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)
                 if ckpt and ckpt.model_checkpoint_path:
                     saver.restore(sess, ckpt.model_checkpoint_path)
