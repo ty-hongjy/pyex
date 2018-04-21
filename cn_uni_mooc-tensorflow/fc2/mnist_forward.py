@@ -1,8 +1,17 @@
 import tensorflow as tf
+import configparser
 
-INPUT_NODE = 784
-OUTPUT_NODE = 10
-LAYER1_NODE = 500
+# 加载现有配置文件
+conf = configparser.ConfigParser()
+# 读取配置文件
+conf.read('parameter.ini')
+INPUT_NODE = conf.getint('forward', 'INPUT_NODE')
+OUTPUT_NODE = conf.getint('forward', 'OUTPUT_NODE')
+LAYER1_NODE = conf.getint('forward', 'LAYER1_NODE')
+
+#INPUT_NODE = 784
+#OUTPUT_NODE = 10
+#LAYER1_NODE = 500
 
 def get_weight(shape, regularizer):
     w = tf.Variable(tf.truncated_normal(shape,stddev=0.1))
