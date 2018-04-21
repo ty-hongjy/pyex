@@ -1,7 +1,8 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-import mnist_forward
 import os
+
+import mnist_forward
 
 BATCH_SIZE = 200
 LEARNING_RATE_BASE = 0.1
