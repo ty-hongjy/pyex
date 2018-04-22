@@ -3,6 +3,7 @@
 import tensorflow as tf
 import numpy as np
 from PIL import Image
+
 import mnist_backward
 import mnist_forward
 
@@ -11,22 +12,20 @@ def restore_model(testPicArr):
         x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
         y = mnist_forward.forward(x, None)
         preValue = tf.argmax(y, 1)
-        print("preValue:",preValue)
-    variable_averages = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
-    variables_to_restore = variable_averages.variables_to_restore()
-    print("variables_to_restore:",variables_to_restore)
-    saver = tf.train.Saver(variables_to_restore)
+        variable_averages = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
+        variables_to_restore = variable_averages.variables_to_restore()
+        saver = tf.train.Saver(variables_to_restore)
 
-    with tf.Session() as sess:
-        ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)
-        if ckpt and ckpt.model_checkpoint_path:
-            saver.restore(sess, ckpt.model_checkpoint_path)
-
-            preValue = sess.run(preValue, feed_dict={x:testPicArr})
-            return preValue
-        else:
-            print("No checkpoint file found")
-            return -1
+        with tf.Session() as sess:
+            ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)
+            if ckpt and ckpt.model_checkpoint_path:
+                saver.restore(sess, ckpt.model_checkpoint_path)
+    
+                preValue = sess.run(preValue, feed_dict={x: testPicArr})
+                return preValue
+            else:
+                print("No checkpoint file found")
+                return -1
 
 def pre_pic(picName):
     img = Image.open(picName)
@@ -43,7 +42,8 @@ def pre_pic(picName):
     nm_arr = im_arr.reshape([1, 784])
     nm_arr = nm_arr.astype(np.float32)
     img_ready = np.multiply(nm_arr, 1.0/255.0)
-#    print("img_ready:",img_ready)
+    print("img_ready:",img_ready)
+    print("img_ready:",type(img_ready))
     return img_ready
 
 def application():
@@ -52,7 +52,6 @@ def application():
 	for i in range(testNum):
 		testPic = input("the path of test picture:")
 		testPicArr = pre_pic(testPic)
-#		print("ok")
 		preValue = restore_model(testPicArr)
 		print( "The prediction number is:", preValue)
 
