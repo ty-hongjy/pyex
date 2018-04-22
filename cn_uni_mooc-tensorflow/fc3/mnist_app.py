@@ -42,8 +42,6 @@ def pre_pic(picName):
     nm_arr = im_arr.reshape([1, 784])
     nm_arr = nm_arr.astype(np.float32)
     img_ready = np.multiply(nm_arr, 1.0/255.0)
-    print("img_ready:",img_ready)
-    print("img_ready:",type(img_ready))
     return img_ready
 
 def application():
