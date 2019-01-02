@@ -1,17 +1,17 @@
 #coding:utf-8
-#ä¸¤å±‚ç®€å•ç¥ç»ç½‘ç»œï¼ˆå…¨è¿æ¥ï¼‰
+#Á½²ã¼òµ¥Éñ¾­ÍøÂç£¨È«Á¬½Ó£©
 import tensorflow as tf
 
-#å®šä¹‰è¾“å…¥å’Œå‚æ•°
+#¶¨ÒåÊäÈëºÍ²ÎÊı
 x = tf.constant([[0.7, 0.5]])
 w1= tf.Variable(tf.random_normal([2, 3], stddev=1, seed=1))
 w2= tf.Variable(tf.random_normal([3, 1], stddev=1, seed=1))
 
-#å®šä¹‰å‰å‘ä¼ æ’­è¿‡ç¨‹
+#¶¨ÒåÇ°Ïò´«²¥¹ı³Ì
 a = tf.matmul(x, w1)
 y = tf.matmul(a, w2)
 
-#ç”¨ä¼šè¯è®¡ç®—ç»“æœ
+#ÓÃ»á»°¼ÆËã½á¹û
 with tf.Session() as sess:
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
@@ -19,6 +19,10 @@ with tf.Session() as sess:
 
 '''
 y in tf3_3.py is : 
+[[3.0904665]]
+'''
+
+_3.py is : 
 [[3.0904665]]
 '''
 
