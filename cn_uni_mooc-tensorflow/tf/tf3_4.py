@@ -1,25 +1,31 @@
 #coding:utf-8
-#ä¸¤å±‚ç®€å•ç¥ç»ç½‘ç»œï¼ˆå…¨è¿æ¥ï¼‰
+#Á½²ã¼òµ¥Éñ¾­ÍøÂç£¨È«Á¬½Ó£©
 
 import tensorflow as tf
 
-#å®šä¹‰è¾“å…¥å’Œå‚æ•°
-#ç”¨placeholderå®ç°è¾“å…¥å®šä¹‰ ï¼ˆsess.runä¸­å–‚ä¸€ç»„æ•°æ®ï¼‰
+#¶¨ÒåÊäÈëºÍ²ÎÊı
+#ÓÃplaceholderÊµÏÖÊäÈë¶¨Òå £¨sess.runÖĞÎ¹Ò»×éÊı¾İ£©
 x = tf.placeholder(tf.float32, shape=(1, 2))
 w1= tf.Variable(tf.random_normal([2, 3], stddev=1, seed=1))
 w2= tf.Variable(tf.random_normal([3, 1], stddev=1, seed=1))
 
 
-#å®šä¹‰å‰å‘ä¼ æ’­è¿‡ç¨‹
+#¶¨ÒåÇ°Ïò´«²¥¹ı³Ì
 a = tf.matmul(x, w1)
 y = tf.matmul(a, w2)
 
 
-#ç”¨ä¼šè¯è®¡ç®—ç»“æœ
+#ÓÃ»á»°¼ÆËã½á¹û
 with tf.Session() as sess:
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
     print("y in tf3_4.py is:\n",sess.run(y, feed_dict={x: [[0.7,0.5]]}))
+
+'''
+y in tf3_4.py is:
+[[3.0904665]]
+'''
+))
 
 '''
 y in tf3_4.py is:
