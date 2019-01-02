@@ -1,19 +1,19 @@
 #coding:utf-8
-#ä¸¤å±‚ç®€å•ç¥ç»ç½‘ç»œï¼ˆå…¨è¿æ¥ï¼‰
+#Á½²ã¼òµ¥Éñ¾­ÍøÂç£¨È«Á¬½Ó£©
 
 import tensorflow as tf
 
-#å®šä¹‰è¾“å…¥å’Œå‚æ•°
-#ç”¨placeholderå®šä¹‰è¾“å…¥ï¼ˆsess.runå–‚å¤šç»„æ•°æ®ï¼‰
+#¶¨ÒåÊäÈëºÍ²ÎÊı
+#ÓÃplaceholder¶¨ÒåÊäÈë£¨sess.runÎ¹¶à×éÊı¾İ£©
 x = tf.placeholder(tf.float32, shape=(None, 2))
 w1= tf.Variable(tf.random_normal([2, 3], stddev=1, seed=1))
 w2= tf.Variable(tf.random_normal([3, 1], stddev=1, seed=1))
 
-#å®šä¹‰å‰å‘ä¼ æ’­è¿‡ç¨‹
+#¶¨ÒåÇ°Ïò´«²¥¹ı³Ì
 a = tf.matmul(x, w1)
 y = tf.matmul(a, w2)
 
-#è°ƒç”¨ä¼šè¯è®¡ç®—ç»“æœ
+#µ÷ÓÃ»á»°¼ÆËã½á¹û
 with tf.Session() as sess:
     init_op = tf.global_variables_initializer()  
     sess.run(init_op)
@@ -32,6 +32,12 @@ w1:
  [-2.4427042   0.0992484   0.59122431]]
 w2:
 [[-0.81131822]
+ [ 1.48459876]
+ [ 0.06532937]]
+
+'''
+
+822]
  [ 1.48459876]
  [ 0.06532937]]
 
