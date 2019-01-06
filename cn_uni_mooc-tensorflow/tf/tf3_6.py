@@ -1,21 +1,21 @@
 #coding:utf-8
-#0µ¼ÈëÄ£¿é£¬Éú³ÉÄ£ÄâÊý¾Ý¼¯¡£
+#0å¯¼å…¥æ¨¡å—ï¼Œç”Ÿæˆæ¨¡æ‹Ÿæ•°æ®é›†ã€‚
 import tensorflow as tf
 import numpy as np
 BATCH_SIZE = 8
 SEED = 23455
 
-#»ùÓÚseed²úÉúËæ»úÊý
+#åŸºäºŽseedäº§ç”Ÿéšæœºæ•°
 rdm = np.random.RandomState(SEED)
-#Ëæ»úÊý·µ»Ø32ÐÐ2ÁÐµÄ¾ØÕó ±íÊ¾32×é Ìå»ýºÍÖØÁ¿ ×÷ÎªÊäÈëÊý¾Ý¼¯
+#éšæœºæ•°è¿”å›ž32è¡Œ2åˆ—çš„çŸ©é˜µ è¡¨ç¤º32ç»„ ä½“ç§¯å’Œé‡é‡ ä½œä¸ºè¾“å…¥æ•°æ®é›†
 X = rdm.rand(32,2)
-#´ÓXÕâ¸ö32ÐÐ2ÁÐµÄ¾ØÕóÖÐ È¡³öÒ»ÐÐ ÅÐ¶ÏÈç¹ûºÍÐ¡ÓÚ1 ¸øY¸³Öµ1 Èç¹ûºÍ²»Ð¡ÓÚ1 ¸øY¸³Öµ0 
-#×÷ÎªÊäÈëÊý¾Ý¼¯µÄ±êÇ©£¨ÕýÈ·´ð°¸£© 
+#ä»ŽXè¿™ä¸ª32è¡Œ2åˆ—çš„çŸ©é˜µä¸­ å–å‡ºä¸€è¡Œ åˆ¤æ–­å¦‚æžœå’Œå°äºŽ1 ç»™Yèµ‹å€¼1 å¦‚æžœå’Œä¸å°äºŽ1 ç»™Yèµ‹å€¼0 
+#ä½œä¸ºè¾“å…¥æ•°æ®é›†çš„æ ‡ç­¾ï¼ˆæ­£ç¡®ç­”æ¡ˆï¼‰ 
 Y_ = [[int(x0 + x1 < 1)] for (x0, x1) in X]
 print( "X:\n",X)
 print( "Y_:\n",Y_)
 
-#1¶¨ÒåÉñ¾­ÍøÂçµÄÊäÈë¡¢²ÎÊýºÍÊä³ö,¶¨ÒåÇ°Ïò´«²¥¹ý³Ì¡£
+#1å®šä¹‰ç¥žç»ç½‘ç»œçš„è¾“å…¥ã€å‚æ•°å’Œè¾“å‡º,å®šä¹‰å‰å‘ä¼ æ’­è¿‡ç¨‹ã€‚
 x = tf.placeholder(tf.float32, shape=(None, 2))
 y_= tf.placeholder(tf.float32, shape=(None, 1))
 
@@ -25,22 +25,22 @@ w2= tf.Variable(tf.random_normal([3, 1], stddev=1, seed=1))
 a = tf.matmul(x, w1)
 y = tf.matmul(a, w2)
 
-#2¶¨ÒåËðÊ§º¯Êý¼°·´Ïò´«²¥·½·¨¡£
+#2å®šä¹‰æŸå¤±å‡½æ•°åŠåå‘ä¼ æ’­æ–¹æ³•ã€‚
 loss_mse = tf.reduce_mean(tf.square(y-y_)) 
 train_step = tf.train.GradientDescentOptimizer(0.001).minimize(loss_mse)
 #train_step = tf.train.MomentumOptimizer(0.001,0.9).minimize(loss_mse)
 #train_step = tf.train.AdamOptimizer(0.001).minimize(loss_mse)
 
-#3Éú³É»á»°£¬ÑµÁ·STEPSÂÖ
+#3ç”Ÿæˆä¼šè¯ï¼Œè®­ç»ƒSTEPSè½®
 with tf.Session() as sess:
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
-    # Êä³öÄ¿Ç°£¨Î´¾­ÑµÁ·£©µÄ²ÎÊýÈ¡Öµ¡£
+    # è¾“å‡ºç›®å‰ï¼ˆæœªç»è®­ç»ƒï¼‰çš„å‚æ•°å–å€¼ã€‚
     print( "w1:\n", sess.run(w1))
     print( "w2:\n", sess.run(w2))
     print( "\n")
     
-    # ÑµÁ·Ä£ÐÍ¡£
+    # è®­ç»ƒæ¨¡åž‹ã€‚
     STEPS = 3000
     for i in range(STEPS):
         start = (i*BATCH_SIZE) % 32
@@ -50,7 +50,7 @@ with tf.Session() as sess:
             total_loss = sess.run(loss_mse, feed_dict={x: X, y_: Y_})
             print("After %d training step(s), loss_mse on all data is %g" % (i, total_loss))
     
-    # Êä³öÑµÁ·ºóµÄ²ÎÊýÈ¡Öµ¡£
+    # è¾“å‡ºè®­ç»ƒåŽçš„å‚æ•°å–å€¼ã€‚
     print( "\n")
     print( "w1:\n", sess.run(w1))
     print( "w2:\n", sess.run(w2))
@@ -116,8 +116,8 @@ w2:
  [ 0.91956186]
  [-0.0682071 ]]
 """
-
-l data is 0.390597
+"""
+ data is 0.390597
 
 
 w1:
