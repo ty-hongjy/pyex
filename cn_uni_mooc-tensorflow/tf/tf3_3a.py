@@ -1,4 +1,3 @@
-#coding:utf-8
 import tensorflow as tf
 
 x = tf.constant([[0.7, 0.5]])
