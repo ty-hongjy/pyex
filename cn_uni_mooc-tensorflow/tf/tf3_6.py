@@ -51,7 +51,7 @@ with tf.Session() as sess:
             print("After %d training step(s), loss_mse on all data is %g" % (i, total_loss))
     
     # 输出训练后的参数取值。
-    print( "\n")
+    print( "\n\ntrained parameter:\n")
     print( "w1:\n", sess.run(w1))
     print( "w2:\n", sess.run(w2))
 
