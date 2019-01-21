@@ -5,25 +5,25 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-import mnist_lenet5_forward
+import cifar_lenet5_forward as forward
 
 BATCH_SIZE = 100
 LEARNING_RATE_BASE =  0.005 
 LEARNING_RATE_DECAY = 0.99 
 REGULARIZER = 0.0001 
-STEPS = 50000 
+STEPS = 30000 #50000
 MOVING_AVERAGE_DECAY = 0.99 
-MODEL_SAVE_PATH="./model/" 
-MODEL_NAME="mnist_model" 
+MODEL_SAVE_PATH="./model/" #*
+MODEL_NAME="cifar_model" #*
 
 def backward(mnist):
     x = tf.placeholder(tf.float32,[
 	BATCH_SIZE,
-	mnist_lenet5_forward.IMAGE_SIZE,
-	mnist_lenet5_forward.IMAGE_SIZE,
-	mnist_lenet5_forward.NUM_CHANNELS]) 
-    y_ = tf.placeholder(tf.float32, [None, mnist_lenet5_forward.OUTPUT_NODE])
-    y = mnist_lenet5_forward.forward(x,True, REGULARIZER) 
+	forward.IMAGE_SIZE,
+	forward.IMAGE_SIZE,
+	forward.NUM_CHANNELS]) 
+    y_ = tf.placeholder(tf.float32, [None, forward.OUTPUT_NODE])
+    y = forward.forward(x,True, REGULARIZER) 
     global_step = tf.Variable(0, trainable=False) 
 
     ce = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y, labels=tf.argmax(y_, 1))
@@ -58,17 +58,17 @@ def backward(mnist):
             xs, ys = mnist.train.next_batch(BATCH_SIZE) 
             reshaped_xs = np.reshape(xs,(  
 		    BATCH_SIZE,
-        	mnist_lenet5_forward.IMAGE_SIZE,
-        	mnist_lenet5_forward.IMAGE_SIZE,
-        	mnist_lenet5_forward.NUM_CHANNELS))
+        	forward.IMAGE_SIZE,
+        	forward.IMAGE_SIZE,
+        	forward.NUM_CHANNELS))
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: reshaped_xs, y_: ys}) 
             if i % 100 == 0: 
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
 
 def main():
-    mnist = input_data.read_data_sets("./data/", one_hot=True) 
-    backward(mnist)
+    cifar = input_data.read_data_sets("./cifar-10/", one_hot=True) 
+    backward(cifar)
 
 if __name__ == '__main__':
     main()
