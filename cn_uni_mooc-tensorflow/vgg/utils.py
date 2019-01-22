@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
+
 from skimage import io, transform
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,8 +20,8 @@ def load_image(path):
     ax0.imshow(img) 
     
     short_edge = min(img.shape[:2]) 
-    y = (img.shape[0] - short_edge) / 2  
-    x = (img.shape[1] - short_edge) / 2 
+    y = (img.shape[0] - short_edge) // 2 #old 1 ->// 
+    x = (img.shape[1] - short_edge) // 2 #old /->//
     crop_img = img[y:y+short_edge, x:x+short_edge] 
     
     ax1 = fig.add_subplot(132) 
