@@ -46,9 +46,9 @@ def pre_pic(picName):
 	return nm_arr  #img
 
 def application():
-	testNum = input("input the number of test pictures:")
+	testNum = int(input("input the number of test pictures:"))
 	for i in range(testNum):
-		testPic = raw_input("the path of test picture:")
+		testPic = input("the path of test picture:")
 		testPicArr = pre_pic(testPic)
 		preValue = restore_model(testPicArr)
 		print( "The prediction number is:", preValue)
