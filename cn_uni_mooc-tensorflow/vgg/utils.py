@@ -28,7 +28,7 @@ def load_image(path):
     ax1.set_xlabel(u"Centre Picture") 
     ax1.imshow(crop_img)
     
-    re_img = transform.resize(crop_img, (224, 224)) 
+    re_img = transform.resize(crop_img, (224, 224), mode='constant') ##modify add  mode='constant'
     
     ax2 = fig.add_subplot(133) 
     ax2.set_xlabel(u"Resize Picture") 
