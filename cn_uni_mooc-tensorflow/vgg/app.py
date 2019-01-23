@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 import vgg16
 import utils
 from Nclasses import labels
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 
 img_path = input('Input the path and image name:')
 img_ready = utils.load_image(img_path) 
