@@ -1,5 +1,6 @@
 #coding:utf-8
 import tensorflow as tf
+
 IMAGE_SIZE = 28
 NUM_CHANNELS = 1
 CONV1_SIZE = 5
@@ -8,6 +9,7 @@ CONV2_SIZE = 5
 CONV2_KERNEL_NUM = 64
 FC_SIZE = 512
 OUTPUT_NODE = 10
+INPUT_NODE = 784 #new
 
 def get_weight(shape, regularizer):
 	w = tf.Variable(tf.truncated_normal(shape,stddev=0.1))
