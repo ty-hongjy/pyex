@@ -2,21 +2,22 @@
 #import pyexiv2 as ev
 import time
 import os
-import ConfigParser
+import configparser
 import datetime
 
 old=datetime.datetime(2014, 8, 30, 22, 5, 0,0)
 new=datetime.datetime(2019, 5, 2, 6,40, 0,0)
 delta=new-old
-
+print(delta)
 
 class exif():
     def __init__(self):
-        config = ConfigParser.ConfigParser()
-        config.readfp(open('config.ini', "rb"))
+        config = configparser.ConfigParser()
+        config.read('config.ini')
         self.Artist = config.get("global", "Artist")
         self.DateTimeOriginal = config.get("global", "DateTimeOriginal")
         self.Software = config.get("global", "Software")
+    
     def imgSave(self,dirname):
         for filename in os.listdir(dirname):
             path = dirname + filename
@@ -25,6 +26,7 @@ class exif():
                 self.imgSave(path)
             else:
                 self.imgExif(path)
+    
     def imgExif(self,path):
         try:
             if self.DateTimeOriginal == "now":
@@ -38,18 +40,19 @@ class exif():
 #            exiv_image["Exif.Photo.DateTimeOriginal"] = mytime
 #            exiv_image["Exif.Image.Software"] = self.Software
 #            exiv_image.write()
-            print( u'图片:',path,u'操作成功')
+            print( '图片:',path,'操作成功')
         except:
-            print( u'图片:',path,u'操作失败')
+            print( '图片:',path,'操作失败')
+    
     def star(self):
-        path =  raw_input(unicode('请输入图片路径：','utf-8').encode('gbk'))
+        path =  input('请输入图片路径：')
         #newpath = unicode(path, 'utf8')
         self.imgSave(path+'/')
         self.star()
-print( u'#------------------------------------')
-print( u'# 程序:批量修改图片exif信息')
-print( u'# 路径格式为:G:\图片')
-print( u'#------------------------------------')
+print( '#------------------------------------')
+print( '# 程序:批量修改图片exif信息')
+print( '# 路径格式为:G:\图片')
+print( '#------------------------------------')
 Exif = exif()
 Exif.star()
 
