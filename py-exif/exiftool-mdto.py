@@ -1,4 +1,5 @@
-#exiftool-mdt： exiftool modify dateTimeOriginal
+# exiftool-mdt： exiftool modify dateTimeOriginal, 
+# it through command line exiftool( https://sno.phy.queensu.ca/~phil/exiftool/)
 # python prg:batch modify picture exif dateTimeOriginal by difference 
 # between old datetime and new datetime
 # path format is: G:\picture
@@ -12,7 +13,7 @@ import time
 import os
 
 old=datetime.datetime(2014, 8, 30, 22, 5, 0,0)
-new=datetime.datetime(2019, 5, 2, 6,40, 0,0)
+new=datetime.datetime(2019, 5, 2, 6,20, 0,0)
 delta=new-old
 print("delta:",delta)
 #subprocess.run(["exiftool.exe","-h"])
