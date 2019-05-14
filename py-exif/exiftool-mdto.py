@@ -14,9 +14,9 @@ import os
 import configparser
 
 config = configparser.ConfigParser()
-config.read('config.ini')
-old_str = config.get("global", "old")
-new_str = config.get("global", "new")
+# config.read('config.ini')
+# old_str = config.get("global", "old")
+# new_str = config.get("global", "new")
 #self.Software = config.get("global", "Software")
 
 old=datetime.datetime(2014, 8, 30, 23, 2, 0,0)
