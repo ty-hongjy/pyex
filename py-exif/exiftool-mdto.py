@@ -3,7 +3,7 @@
 # python prg:batch modify picture exif dateTimeOriginal by difference 
 # between old datetime and new datetime
 # path format is: G:\picture
-# if run in windows ,please run minGW64 or git bash shell,because 'grep' is 
+# if run in windows ,please run in minGW64 or in git bash shell,because 'grep' is 
 # not for windows cmd or powershell.
 
 import exiftool
@@ -11,9 +11,16 @@ import subprocess
 import datetime
 import time
 import os
+import configparser
 
-old=datetime.datetime(2014, 8, 30, 22, 5, 0,0)
-new=datetime.datetime(2019, 5, 2, 6,20, 0,0)
+config = configparser.ConfigParser()
+config.read('config.ini')
+old_str = config.get("global", "old")
+new_str = config.get("global", "new")
+#self.Software = config.get("global", "Software")
+
+old=datetime.datetime(2014, 8, 30, 23, 2, 0,0)
+new=datetime.datetime(2019, 5, 2, 7,00, 0,0)
 delta=new-old
 print("delta:",delta)
 #subprocess.run(["exiftool.exe","-h"])
@@ -26,14 +33,6 @@ print("delta:",delta)
 #str = subprocess.getstatusoutput('exiftool.exe -a -u -g1 "E:\\2019502a\DSC02789.JPG"|grep "Date/Time O"')
 #print(str)
 
-# str_split=str[1].split(':',1)
-# print(str_split)
-# print(str_split[1].strip())
-# old1=time.strptime(str_split[1].strip(),"%Y:%m:%d %H:%M:%S")
-# print(old1)
-# old2=datetime.datetime(*old1[0:6])
-# print(old2)
-
 print( '#------------------------------------')
 print( '# python prg:batch modify picture exif dateTimeOriginal by difference between old datetime and new datetime')
 print( '# path format is: G:\picture')
@@ -44,7 +43,7 @@ start=datetime.datetime.now()
 print("start:",start)
 i=0
 for filename in os.listdir(dirname):
-	i=+1
+	i+=1
 	print("No:",i)
 	path = dirname + "\\" + filename
 	str1='exiftool.exe -a -u -g1 "'+path+'"|grep "Date/Time O"'
