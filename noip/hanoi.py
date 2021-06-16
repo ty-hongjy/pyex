@@ -12,7 +12,7 @@ def move(n, a, b, c):
         move(1, a, b, c)
         move(n-1, b, a, c)
 
-a = input('please input count golden disk of A:')
+a = input('please input count of golden disk on A:')
 num = int(a)
 print(f'the sequence that {num} disks move to C:')
 move(num, 'A', 'B', 'C')
