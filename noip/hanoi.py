@@ -1,3 +1,4 @@
+#this is version include step and golden disk number
 step=0
 def move(n, a, b, c):
     global count,step
@@ -14,11 +15,12 @@ def move(n, a, b, c):
         move(1, a, b, c)
         move(n-1, b, a, c)
 
-a = input('请输入A柱盘子的个数：')
+a = input('please input count golden disk of A:')
 num = int(a)
-print('把',num,'个盘子全部移到C柱子的顺序为：')
+print(f'the sequence that {num} disks move to C:')
 move(num, 'A', 'B', 'C')
 
+#this is simple version
 def hanoi(n, a, b, c):
     if n == 1:
         print(a + '--->' + c)
@@ -27,7 +29,7 @@ def hanoi(n, a, b, c):
         print(a + '--->' + c)
         hanoi(n-1, b, a, c)
 
-
+#include step and golden disk number
 def hanoi_no_recursion(n):
     tower_belong = [0] * n
     if n % 2 == 0:
