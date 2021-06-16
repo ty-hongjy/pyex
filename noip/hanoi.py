@@ -1,8 +1,14 @@
+step=0
 def move(n, a, b, c):
-	global count
+    global count,step
     if n == 1:
-        print(a, '-->', c)
-        count+=1
+        step+=1
+        # print("step:",step)
+        bin_step = bin(step)
+        # print( "len(bin_step):",len(bin_step), "- bin_step.rfind('1'):",bin_step.rfind('1'))
+        gold_num = len(bin_step) - bin_step.rfind('1') - 1
+        # print("gold_num:",gold_num)
+        print("step:",step,",gold_num:",gold_num,",",a, '-->', c)
     else:
         move(n-1, a, c, b)
         move(1, a, b, c)
@@ -12,7 +18,6 @@ a = input('请输入A柱盘子的个数：')
 num = int(a)
 print('把',num,'个盘子全部移到C柱子的顺序为：')
 move(num, 'A', 'B', 'C')
-print(count)
 
 def hanoi(n, a, b, c):
     if n == 1:
