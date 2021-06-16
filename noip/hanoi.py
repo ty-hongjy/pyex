@@ -4,11 +4,8 @@ def move(n, a, b, c):
     global count,step
     if n == 1:
         step+=1
-        # print("step:",step)
         bin_step = bin(step)
-        # print( "len(bin_step):",len(bin_step), "- bin_step.rfind('1'):",bin_step.rfind('1'))
         gold_num = len(bin_step) - bin_step.rfind('1') - 1
-        # print("gold_num:",gold_num)
         print("step:",step,",gold_num:",gold_num,",",a, '-->', c)
     else:
         move(n-1, a, c, b)
