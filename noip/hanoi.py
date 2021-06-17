@@ -6,18 +6,18 @@ def move(n, a, b, c):
         step+=1
         bin_step = bin(step)
         gold_num = len(bin_step) - bin_step.rfind('1') - 1
-        print("step:",step,",gold_num:",gold_num,",",a, '-->', c)
+        print("step:",step,",gold disk num:",gold_num,",",a, '-->', c)
     else:
         move(n-1, a, c, b)
         move(1, a, b, c)
         move(n-1, b, a, c)
 
-a = input('please input count of golden disk on A:')
+a = input('please input count of golden disk on A rod:')
 num = int(a)
-print(f'the sequence that {num} disks move to C:')
+print(f'the sequence that {num} disks move to C rod:')
 move(num, 'A', 'B', 'C')
 
-#this is simple version
+#this is very simple version
 def hanoi(n, a, b, c):
     if n == 1:
         print(a + '--->' + c)
