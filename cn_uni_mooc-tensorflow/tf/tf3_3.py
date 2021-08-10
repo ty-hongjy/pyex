@@ -1,5 +1,7 @@
 #coding:utf-8
 #两层简单神经网络（全连接）
+#import tensorflow as tf
+#import tensorflow as tf
 import tensorflow as tf
 
 #定义输入和参数
@@ -19,6 +21,10 @@ with tf.Session() as sess:
 
 '''
 y in tf3_3.py is : 
+[[3.0904665]]
+'''
+'''
+_3.py is : 
 [[3.0904665]]
 '''
 

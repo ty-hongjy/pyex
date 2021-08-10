@@ -3,8 +3,8 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-import opt4_8_generateds
-import opt4_8_forward
+import opt4_8_generateds as gene
+import opt4_8_forward as forward
 
 STEPS = 40000
 BATCH_SIZE = 30 
@@ -16,9 +16,9 @@ def backward():
 	x = tf.placeholder(tf.float32, shape=(None, 2))
 	y_ = tf.placeholder(tf.float32, shape=(None, 1))
 
-	X, Y_, Y_c = opt4_8_generateds.generateds()
+	X, Y_, Y_c = gene.generateds()
 
-	y = opt4_8_forward.forward(x, REGULARIZER)
+	y = forward.forward(x, REGULARIZER)
 	
 	global_step = tf.Variable(0,trainable=False)	
 
@@ -53,9 +53,9 @@ def backward():
 		probs = sess.run(y, feed_dict={x:grid})
 		probs = probs.reshape(xx.shape)
 	
-	plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
+	plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c))
 	plt.contour(xx, yy, probs, levels=[.5])
 	plt.show()
-	
+
 if __name__=='__main__':
 	backward()

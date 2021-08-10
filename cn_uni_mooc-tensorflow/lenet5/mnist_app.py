@@ -3,8 +3,8 @@
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import mnist_backward
-import mnist_forward
+import mnist_lenet5_backward as mnist_backward
+import mnist_lenet5_forward as mnist_forward
 
 def restore_model(testPicArr):
 	with tf.Graph().as_default() as tg:

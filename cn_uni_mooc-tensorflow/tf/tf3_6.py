@@ -51,7 +51,7 @@ with tf.Session() as sess:
             print("After %d training step(s), loss_mse on all data is %g" % (i, total_loss))
     
     # 输出训练后的参数取值。
-    print( "\n")
+    print( "\n\ntrained parameter:\n")
     print( "w1:\n", sess.run(w1))
     print( "w2:\n", sess.run(w2))
 
@@ -106,6 +106,18 @@ After 1000 training step(s), loss_mse on all data is 0.409789
 After 1500 training step(s), loss_mse on all data is 0.399923
 After 2000 training step(s), loss_mse on all data is 0.394146
 After 2500 training step(s), loss_mse on all data is 0.390597
+
+
+w1:
+[[-0.70006633  0.9136318   0.08953571]
+ [-2.3402493  -0.14641267  0.58823055]]
+w2:
+[[-0.06024267]
+ [ 0.91956186]
+ [-0.0682071 ]]
+"""
+"""
+ data is 0.390597
 
 
 w1:

@@ -25,3 +25,8 @@ with tf.Session() as sess:
 y in tf3_4.py is:
 [[3.0904665]]
 '''
+
+'''
+y in tf3_4.py is:
+[[3.0904665]]
+'''
