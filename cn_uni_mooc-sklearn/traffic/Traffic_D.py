@@ -20,43 +20,41 @@ def load_datasets(feature_paths, label_paths):
         print("df size",len(df.columns))
         # df = pd.read_csv(file, delimiter=',', na_values='?', header=None)
         # df['Date Occurred'] = pd.to_datetime(df['Date Occurred'])
-        df['Time Occurred'] = pd.to_datetime(df['Date Occurred'],df['Time Occurred'])
-        # df['Time Occurred'] = pd.concat(df['Date Occurred'],df['Time Occurred'])
-        print(df['Time Occurred'])
+        # df['Time Occurred'] = pd.to_datetime(df['Date Occurred']+' '+df['Time Occurred'])
+        # df['Time Occurred'] = pd.concat(df['Date Occurred']+' '+df['Time Occurred'])
+        # print('Time Occurred',df['Time Occurred'])
         # df['Time Occurred'] = pd.to_numeric(['Time Occurred'],downcast=astype(int64))
-        
+        # df['Time Occurred']=pd.Timestamp(df['Time Occurred'])
+
         # df.drop([ 'Area ID','Area Name','Date Reported','Date Occurred', 'Crime Code Description',
         df.drop([ 'Area ID','Area Name','Date Reported','Date Occurred', 'Time Occurred','Crime Code Description',
                 'MO Codes','Victim Descent','Premise Description','Address','Cross Street','Victim Sex'], 
                  axis=1,inplace=True)
-        # df.to_timestamp(['Date Occurred'])
-        # df.to_timestamp(['Time Occurred'])
-        # df['Time Occurred'] = df['Time Occurred'].apply(lambda d:datetime.strptime(d, '%h:%m:%s'))
-        # df.drop(axis=0, index=0, columns=None, inplace=False)
-        # df.dropna(inplace=True)
         print('f df len',len(df))
         # print("df size",len(df.columns))
+        # df.dropna(inplace=True, how='all')
+        # feature = np.concatenate((feature, df))
+
         imp = SimpleImputer(missing_values=np.nan,fill_value=0)
-        # imp = SimpleImputer(missing_values=np.nan'NaN',fill_value=0)
+        # imp = SimpleImputer(missing_values='NaN',fill_value=0)
         imp.fit(df)
         df = imp.transform(df)
         feature = np.concatenate((feature, df))
 
     for file in label_paths:
         df = pd.read_csv(file, delimiter=',', na_values='?')
+        # df.dropna(inplace=True, how='all')
+
         # df = pd.read_csv(file, delimiter=',', na_values='?', header=None)
         # df2=df.take([4], axis=1)
         # df2=df[4]
-        # df2=df.take([ 'Area ID'], axis=1)
+        # df2=df.take(df['Area ID'], axis=1)
         df2=df.take([4], axis=1)
-        # df2=df.take([4], axis=1)
         # print(type(df))
         # print("df2 size",len(df.columns))
         # print(df)
         # print(type(df2))
-        # df2.drop(axis=0, index=0, columns=None, inplace=False)
         print('l df len',len(df2))
-        # print("df2 size",len(df2.columns))
         # print(df2)
         label = np.concatenate((label, df2))
 

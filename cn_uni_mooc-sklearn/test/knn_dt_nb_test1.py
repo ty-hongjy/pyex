@@ -9,9 +9,10 @@ import pandas as pd
 import numpy as np  
  
 from sklearn.preprocessing import Imputer
-from sklearn.cross_validation import train_test_split 
+# from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-   
+
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -19,7 +20,7 @@ from sklearn.naive_bayes import GaussianNB
 ISOTIMEFORMAT='%Y-%m-%d %X'
 #_is_verify=False
 _is_verify=True
- 
+
 def load_datasets(filepaths):
 #def load_datasets(filepaths, label_paths):
     print("start loading data:"+filepaths)

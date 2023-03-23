@@ -20,13 +20,15 @@ frame.dropna(inplace=True, how='all')
 # Preprocessing is over
 
 # Split date data
+frame['Time Occurred'] = pd.to_datetime(frame['Date Occurred']+' '+frame['Time Occurred'])
 frame['Date Occurred'] = pd.to_datetime(frame['Date Occurred'])
+print('Time Occurred',frame['Time Occurred'])
 frame['year'] = frame['Date Occurred'].dt.year
 frame['day_of_week'] = frame['Date Occurred'].dt.dayofweek
-frame['Time Occurred'] = pd.to_datetime(frame['Date Occurred'],frame['Time Occurred'])
 # frame['Time Occurred'] = frame['Time Occurred'].astype(str)
 # frame['hour'] = [hour[:2] if len(hour) == 4 else (hour[0] if len(hour) == 3 else '0')
 #                  for hour in frame['Time Occurred']]
+frame['hour'] = frame['Time Occurred'].dt.hour
 # frame['Time Occurred'] = frame['Time Occurred'].astype(int)
 frame['Date'] = frame['Date Occurred']
 frame.index = pd.DatetimeIndex(frame['Date'])

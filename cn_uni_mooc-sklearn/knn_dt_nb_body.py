@@ -9,7 +9,8 @@ import pandas as pd
 import numpy as np  
  
 from sklearn.preprocessing import Imputer
-from sklearn.cross_validation import train_test_split 
+# from sklearn.cross_validation import train_test_split 
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
    
 from sklearn.neighbors import KNeighborsClassifier
