@@ -67,7 +67,8 @@ def main():
     x_train, x_test, y_train, y_test = \
     train_test_split(x, y, test_size=0.3, random_state=0,stratify=y)
     print('Start DT training')
-    dt = DecisionTreeClassifier().fit(x_train, y_train)
+    dt = DecisionTreeClassifier(max_depth=7).fit(x_train, y_train)
+    # dt = DecisionTreeClassifier(max_depth=4).fit(x_train, y_train)
     print('Training done')
 
     answer_dt = dt.predict(x_test)
