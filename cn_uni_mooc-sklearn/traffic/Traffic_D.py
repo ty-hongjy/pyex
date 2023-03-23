@@ -19,8 +19,15 @@ def load_datasets(feature_paths, label_paths):
         df = pd.read_csv(file, delimiter=',', na_values='?')
         print("df size",len(df.columns))
         # df = pd.read_csv(file, delimiter=',', na_values='?', header=None)
-        df.drop([ 'Area ID','Area Name','Date Reported','Date Occurred','Crime Code Description',
-                 'Time Occurred','MO Codes','Victim Descent','Premise Description','Address','Cross Street','Victim Sex'], 
+        # df['Date Occurred'] = pd.to_datetime(df['Date Occurred'])
+        df['Time Occurred'] = pd.to_datetime(df['Date Occurred'],df['Time Occurred'])
+        # df['Time Occurred'] = pd.concat(df['Date Occurred'],df['Time Occurred'])
+        print(df['Time Occurred'])
+        # df['Time Occurred'] = pd.to_numeric(['Time Occurred'],downcast=astype(int64))
+        
+        # df.drop([ 'Area ID','Area Name','Date Reported','Date Occurred', 'Crime Code Description',
+        df.drop([ 'Area ID','Area Name','Date Reported','Date Occurred', 'Time Occurred','Crime Code Description',
+                'MO Codes','Victim Descent','Premise Description','Address','Cross Street','Victim Sex'], 
                  axis=1,inplace=True)
         # df.to_timestamp(['Date Occurred'])
         # df.to_timestamp(['Time Occurred'])
