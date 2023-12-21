@@ -10,4 +10,5 @@ requests==2.24.0
 jupyter
 mycli
 pandas
+xlrd
 scikit-learn
