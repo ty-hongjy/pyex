@@ -110,7 +110,7 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     print("Start:",problem.getStartState())
     closed=set()
-    fringe = util.Queue()# 创建一个栈，后进先出LIFO
+    fringe = util.Queue()# 创建一个队列，先进先出FIFO
     init_state ={"state":problem.getStartState(),"path":[]}
     fringe.push(init_state)
     while not fringe.isEmpty():
