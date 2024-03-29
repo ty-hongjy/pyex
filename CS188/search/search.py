@@ -87,12 +87,45 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print("Start:",problem.getStartState())
+    closed=set()
+    fringe = util.Stack()# 创建一个栈，后进先出LIFO
+    init_state ={"state":problem.getStartState(),"path":[]}
+    fringe.push(init_state)
+    while not fringe.isEmpty():
+        node =fringe.pop()
+        if problem.isGoalState(node["state"]):
+            return node["path"]
+        if node["state"] not in closed:
+            closed.add(node["state"])
+            for state,action,cost in problem.getSuccessors(node["state"]):
+                # print(node)
+                # problem.getSuccessors(nestnode["state"])
+                nextnode ={"state":state,"path":node["path"]+[action]}
+                fringe.push(nextnode)
+    # util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print("Start:",problem.getStartState())
+    closed=set()
+    fringe = util.Queue()# 创建一个栈，后进先出LIFO
+    init_state ={"state":problem.getStartState(),"path":[]}
+    fringe.push(init_state)
+    while not fringe.isEmpty():
+        node =fringe.pop()
+        if problem.isGoalState(node["state"]):
+            return node["path"]
+        if node["state"] not in closed:
+            closed.add(node["state"])
+            for state,action,cost in problem.getSuccessors(node["state"]):
+                # print(node)
+                # problem.getSuccessors(nestnode["state"])
+                nextnode ={"state":state,"path":node["path"]+[action]}
+                fringe.push(nextnode)
+ 
+    # util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
