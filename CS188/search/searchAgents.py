@@ -380,7 +380,28 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    # 需要将所有没有吃过的豆豆都计入启发值的计算中
+    heuristicSum=0
+    foodRemain={}#字典内容{(1,1):0,…..}
+    x,y= state[0]
+    # 初始时，为Pacman的坐标#先将所有未吃的豆豆放到foodRemain中
+    for i in range(len(state[1])):
+        if state[1][i]== 0:
+            # foodRemain的键应该为坐标值，可以直接从corners里面取出
+            foodRemain[corners[i]]=0
+        # 把foodRemain中的未吃的豆豆遍历，计算累计的启发值
+        while(foodRemain!={}):
+            # 使用离当前(x,y)坐标的曼哈顿距离作为每一个豆豆的启发值
+            for nextNode in foodRemain.keys():
+                foodRemain[nextNode]= abs(x-nextNode[0])+ abs(y-nextNode[0])
+                #从中选出启发值最小的那个豆豆，作为下一个要吃的目标
+                x,y= min(foodRemain,key=lambda pos:foodRemain[pos])
+                # 用离x,y最近的豆豆的曼哈顿距离，计入启发值总计
+                heuristicSum +=foodRemain[(x,y)]
+                # 计算过的豆豆要从字典中删掉
+                del foodRemain[(x,y)]
+    return heuristicSum
+    # return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
