@@ -295,14 +295,18 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return(self.startingPosition,(0,0,0,0))
+        # util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # 根据上面的假设，如果豆豆全部被吃过，那么列表中的数字应该都为1
+        isGoal =True if sum(state[1]) ==4 else False
+        return isGoal
+        # util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
@@ -325,7 +329,23 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-
+            #不要忘记state中包含Pacman的坐标和豆豆的状态
+            x,y= state[0]
+            dx,dy= Actions.directionToVector(action)
+            nextx,nexty=int(x+dx),int(y+ dy)
+            #如果下一个位置不是墙
+            if not self.walls[nextx][nexty]:
+                nextPosition =(nextx,nexty) #在修改其内容的过程中，需要先转换成列表
+                # 因为，我们将豆豆的状态存储为元组，
+                foodState =list(state[1])
+                if nextPosition in self.corners:
+                    #找出吃豆人遇到的是第几个豆豆，将序号保存到index中
+                    index=self.corners.index(nextPosition)
+                # state[1]是豆豆的状态，后面的[index]表示豆豆的序号
+                    foodState[index]=1
+                # 最后的那个1表示每向前一步的代价，同时不要忘记把豆豆的状态改回到元组# 返回下一个节点内容的格式因该是:state,action，cost#其中state又包含Pacman坐标和豆豆的状态，即s
+                successors.append(((nextPosition,tuple(foodState)),action,1))
+            # 最后的那个1表示每向前一步的代价，同时不要忘记把豆豆的状态改回到元组
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
