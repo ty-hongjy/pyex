@@ -164,10 +164,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     while not fringe.isEmpty():
         node =fringe.pop()
         if problem.isGoalState(node["state"]):
-            return node"path"]
+            return node["path"]
         if node["state"] not in closed:
             closed.add(node["state"])
-            for state,action,cost in problem.getSuccessors(nodè["state"]):
+            for state,action,cost in problem.getSuccessors(node["state"]):
                 nextnode ={"state":state,"path":node["path"] + [action],\
                     "cost":node["cost"]+ cost}
                 #上条语句中，之所以要进行加法运算，是因为到达该节点的代价中一定包含到达父节点的代价
