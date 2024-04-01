@@ -394,11 +394,11 @@ def cornersHeuristic(state, problem):
         # 使用离当前(x,y)坐标的曼哈顿距离作为每一个豆豆的启发值
         for nextNode in foodRemain.keys():
             foodRemain[nextNode]= abs(x-nextNode[0])+ abs(y-nextNode[1])
-            #从中选出启发值最小的那个豆豆，作为下一个要吃的目标
-            x,y= min(foodRemain,key=lambda pos:foodRemain[pos])
-            # 用离x,y最近的豆豆的曼哈顿距离，计入启发值总计
-            heuristicSum +=foodRemain[(x,y)]
-            # 计算过的豆豆要从字典中删掉
+        #从中选出启发值最小的那个豆豆，作为下一个要吃的目标
+        x,y= min(foodRemain,key=lambda pos:foodRemain[pos])
+        # 用离x,y最近的豆豆的曼哈顿距离，计入启发值总计
+        heuristicSum +=foodRemain[(x,y)]
+        # 计算过的豆豆要从字典中删掉
         del foodRemain[(x,y)]
     return heuristicSum
     # return 0 # Default to trivial solution
