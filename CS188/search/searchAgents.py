@@ -109,7 +109,7 @@ class SearchAgent(Agent):
 
         state: a GameState object (pacman.py)
         """
-        if self.searchFunction == None: raise Exception("No search function provided for SearchAgent")
+        if self.searchFunction is None: raise Exception("No search function provided for SearchAgent")
         starttime = time.time()
         problem = self.searchType(state) # Makes a new search problem
         self.actions  = self.searchFunction(problem) # Find a path
@@ -154,7 +154,8 @@ class PositionSearchProblem(search.SearchProblem):
         """
         self.walls = gameState.getWalls()
         self.startState = gameState.getPacmanPosition()
-        if start != None: self.startState = start
+        # if start != None: self.startState = start
+        if start is not None: self.startState = start
         self.goal = goal
         self.costFn = costFn
         self.visualize = visualize
@@ -215,7 +216,7 @@ class PositionSearchProblem(search.SearchProblem):
         Returns the cost of a particular sequence of actions. If those actions
         include an illegal move, return 999999.
         """
-        if actions == None: return 999999
+        if actions is None: return 999999
         x,y= self.getStartState()
         cost = 0
         for action in actions:
@@ -354,7 +355,7 @@ class CornersProblem(search.SearchProblem):
         Returns the cost of a particular sequence of actions.  If those actions
         include an illegal move, return 999999.  This is implemented for you.
         """
-        if actions == None: return 999999
+        if actions is None: return 999999
         x,y= self.startingPosition
         for action in actions:
             dx, dy = Actions.directionToVector(action)
