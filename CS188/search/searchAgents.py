@@ -465,55 +465,6 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
         self.searchType = FoodSearchProblem
 
-def foodHeuristic_min(state, problem):
-    """
-    Your heuristic for the FoodSearchProblem goes here.
-
-    This heuristic must be consistent to ensure correctness.  First, try to come
-    up with an admissible heuristic; almost all admissible heuristics will be
-    consistent as well.
-
-    If using A* ever finds a solution that is worse uniform cost search finds,
-    your heuristic is *not* consistent, and probably not admissible!  On the
-    other hand, inadmissible or inconsistent heuristics may find optimal
-    solutions, so be careful.
-
-    The state is a tuple ( pacmanPosition, foodGrid ) where foodGrid is a Grid
-    (see game.py) of either True or False. You can call foodGrid.asList() to get
-    a list of food coordinates instead.
-
-    If you want access to info like walls, capsules, etc., you can query the
-    problem.  For example, problem.walls gives you a Grid of where the walls
-    are.
-
-    If you want to *store* information to be reused in other calls to the
-    heuristic, there is a dictionary called problem.heuristicInfo that you can
-    use. For example, if you only want to count the walls once and store that
-    value, try: problem.heuristicInfo['wallCount'] = problem.walls.count()
-    Subsequent calls to this heuristic can access
-    problem.heuristicInfo['wallCount']
-    """
-    position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    heuristicSum=0
-    foodRemain={}
-    # 记录还有多少豆豆没有吃掉
-    x,y= state[0]
-    # 要从全局考虑最优解，所以需要遍历所有未吃掉的豆豆
-    for food in foodGrid.asList():
-        foodRemain[food]=0
-    while(foodRemain != {}):
-        # 使用离当前(x,y)坐标的曼哈顿距离作为每一个豆豆的启发值
-        for nextNode in foodRemain.keys():
-            foodRemain[nextNode]= abs(x-nextNode[0])+ abs(y-nextNode[1])
-        #从中选出启发值最小的那个豆豆，作为下一个要吃的目标
-        x,y= min(foodRemain,key=lambda pos:foodRemain[pos])
-        # # 用离(x,y)最近的豆豆的曼哈顿距离，计入启发值总计
-        heuristicSum += foodRemain[(x,y)]
-        # 计算过的豆豆要从字典中删掉
-        del foodRemain[(x,y)]
-    return heuristicSum
-    # return 0
 
 def foodHeuristic(state, problem):
     """
@@ -552,18 +503,16 @@ def foodHeuristic(state, problem):
     # 要从全局考虑最优解，所以需要遍历所有未吃掉的豆豆
     for food in foodGrid.asList():
         foodRemain[food]=0
-    while(foodRemain != {}):
-        # 使用离当前(x,y)坐标的曼哈顿距离作为每一个豆豆的启发值
+    # 如果还有没有吃掉的豆豆在地图上
+    if len(foodRemain)>0:
+        # 从当前(x,y)坐标的位置，找到实际距离最远的豆豆，并将该距离作为
         for nextNode in foodRemain.keys():
-            foodRemain[nextNode]= abs(x-nextNode[0])+ abs(y-nextNode[1])
-        #从中选出启发值最小的那个豆豆，作为下一个要吃的目标
-        x,y= min(foodRemain,key=lambda pos:foodRemain[pos])
-        # # 用离(x,y)最近的豆豆的曼哈顿距离，计入启发值总计
-        heuristicSum += foodRemain[(x,y)]
-        # 计算过的豆豆要从字典中删掉
-        del foodRemain[(x,y)]
+            foodRemain[nextNode]= mazeDistance((x,y), nextNode,problem.startingGameState)
+        #从中选出启发值最大的那个豆豆，并将其坐标存放到(x，y)
+        x,y= max(foodRemain,key=lambda pos:foodRemain[pos])
+        # 用离(x,y)最远的豆豆的实际距离作为启发值返回
+        heuristicSum=foodRemain[(x,y)]
     return heuristicSum
-    # return 0
 
 
 class ClosestDotSearchAgent(SearchAgent):

@@ -87,7 +87,7 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    print("Start:",problem.getStartState())
+    # print("Start:",problem.getStartState())
     closed=set()
     fringe = util.Stack()# 创建一个栈，后进先出LIFO
     init_state ={"state":problem.getStartState(),"path":[]}
@@ -108,7 +108,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    print("Start:",problem.getStartState())
+    # print("Start:",problem.getStartState())
     closed=set()
     fringe = util.Queue()# 创建一个队列，先进先出FIFO
     init_state ={"state":problem.getStartState(),"path":[]}
