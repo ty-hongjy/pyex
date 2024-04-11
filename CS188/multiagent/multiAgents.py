@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -72,27 +72,28 @@ class ReflexAgent(Agent):
         newFood = successorGameState.getFood()
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
+        print("newScaredTimes:",newScaredTimes[0])
 
         "*** YOUR CODE HERE ***"
         # 通过鬼怪和当前pacman的位置计算危险值# 将所有鬼怪离当前的位置全部计算出来
-        Ghosts = [manhattanDistance(ghost.configuration.pos, newPos)for ghost in newGhostStates]
+        Ghosts = [manhattanDistance(ghost.configuration.pos, newPos) for ghost in newGhostStates]
         # 求最近的鬼怪的曼哈顿距离，其他的鬼怪可以不计
         nearestGhost=min(Ghosts)
         #以为吃到豆豆可以+10，设置为-20可以抵消吃掉豆豆的得分和下方的豆豆启发值# 为什么小于2，因为大于等于2的鬼怪，不要考虑呀，否则，豆豆就老是躲着鬼怪
-        dangousScore=-20 if nearestGhost<2 else 0
+        dangousScore = -20 if nearestGhost < 2 else 0
         # 计算最近的豆豆，对自己的影响
         if len(newFood.asList())>0:
-            Foods =[manhattanDistance(food,newPos)for food in newFood.asList()]
+            Foods =[manhattanDistance(food,newPos) for food in newFood.asList()]
             # 求最近的豆豆的距离
-            nearestFood =min(Foods)
+            nearestFood = min(Foods)
             # 豆豆离我越近，其启发值就必须越大!吃一个豆豆+10，但是还要消耗1点精力移动，所以吃掉隔壁的豆豆的9分
-            foodHeuristic=9/nearestFood
+            foodHeuristic = 9/nearestFood
         else:
-            foodHeuristic =0
+            foodHeuristic = 0
 
-        print(dangousScore,foodHeuristic)
+        print("dangousScore: %s,foodHeuristic: %f",dangousScore,foodHeuristic)
         #最后把下一个状态的得分也计入评价值结果
-        return successorGameState.getScore()+ dangousScore + foodHeuristic
+        return successorGameState.getScore()+ dangousScore + foodHeuristic + newScaredTimes[0]
         # return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState):
