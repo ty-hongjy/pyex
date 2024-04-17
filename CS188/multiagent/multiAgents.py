@@ -223,7 +223,67 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #一开始肯定是先从吃豆人的行动开始，所以直接调用getMax函数
+        maxVal,bestAction=self.getMax(gameState)
+        return bestAction
+        # 上述语句的另外一种写法
+        # return self.getMax(gameState)[1]
+        # util.raiseNotDefined()
+
+    def getMax(self,gameState,depth=0,agentIndex=0,alpha=-float('inf'),beta=float('inf')):
+        # 如果达到搜索深度，则将当前状态的评价值返回
+        if depth == self.depth:
+            return self.evaluationFunction(gameState),None
+        # 如果接下来没有可行的行动，也要终止迭代
+        if len(gameState.getLegalActions(agentIndex))==0:
+            return self.evaluationFunction(gameState),None
+            #获得吃豆人的所有可行操作，并进行追历
+        maxVal = -float('inf')
+        bestAction =None
+        for action in gameState.getLegalActions(agentIndex):
+            # 参数中最后的“1”，表示接下来的动作是计算鬼怪的行动影响
+            value=self.getMin(gameState.generateSuccessor(agentIndex, action),depth,agentIndex+1,alpha,beta)[0]
+            if value>maxVal:
+                maxVal =value
+                bestAction =action
+
+            # 如果v>beta，
+            if value>beta:
+                return value,action
+            alpha=value if value>alpha else alpha
+
+        return maxVal,bestAction
+
+    # getMin主要是计算鬼怪选择造成最坏影响的动作
+    def getMin(self,gameState,depth=0,agentIndex=1,alpha=-float('inf'),beta=float('inf')):
+        # 如果达到搜索深度，则将当前状态的评价值返回
+        if depth == self.depth:
+            return self.evaluationFunction(gameState),None
+            #如果接下来没有可行的行动，也要终止迭代
+        if len(gameState.getLegalActions(agentIndex))==0:
+            return self.evaluationFunction(gameState),None
+
+        #获得当前鬼怪的所有可行操作，并进行遍历
+        minVal =float('inf')
+        bestAction =None
+        for action in gameState.getLegalActions(agentIndex):
+            #如果你是最后一个鬼怪的agent，那么接下来就要去计算吃豆人的
+            if agentIndex == gameState.getNumAgents()-1:
+                #参数中最后的“0”，表示接下来的动作是计算吃豆人的行动
+                value=self.getMax(gameState.generateSuccessor(agentIndex, action),depth+1,0,alpha,beta)[0]
+            else:
+                # 参数中最后的agentIndex(大于1)，表示接下来的动作是计算魔鬼的影响
+                value=self.getMin(gameState.generateSuccessor(agentIndex, action),depth,agentIndex+1,alpha,beta)[0]
+
+            if value<minVal:
+                minVal = value
+                bestAction = action
+
+            if value < alpha:
+                return value,action
+
+            beta=value if value<beta else beta
+        return minVal,bestAction
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
