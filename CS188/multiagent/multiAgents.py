@@ -298,7 +298,57 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         legal moves.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # util.raiseNotDefined()
+        #一开始肯定是先从吃豆人的行动开始，所以直接调用getMax函数
+        # maxVal,bestAction=self.getMax(gameState)
+        return self.getMax(gameState)[1]
+
+
+    # getMax主要是计算吃豆人选择最佳的动作
+    def getMax(self, gameState, depth=0,agentIndex=0):
+        #如果达到搜索深度，则将当前状态的评价值返回
+        if depth == self.depth:
+            return self.evaluationFunction(gameState),None
+        #如果接下来没有可行的行动，也要终止迭代
+        if len(gameState.getLegalActions(agentIndex)) == 0:
+            return self.evaluationFunction(gameState),None
+
+        #获得吃豆人的所有可行操作，并进行遍历
+        maxVal = -float('inf')
+        bestAction= None
+        for action in gameState.getLegalActions(agentIndex):
+            #参数中最后的“1",表示接下来的动作是计算鬼怪的行动影响
+            value=self.getExpect(gameState.generateSuccessor(agentIndex, action) , depth,agentIndex+1)
+            if value>maxVal:
+                maxVal =value
+                bestAction =action
+
+        return maxVal,bestAction
+
+    # getExpect主 要是计算鬼怪选择造成影响的状态的效用值，即各种可能的状态的效用值平均
+    def getExpect(self ,gameState ,depth ,agentIndex=1):
+        #如果达到搜索深度，则将当前状态的评价值返回
+        if depth == self.depth:
+            return self.evaluationFunction(gameState)
+        
+        #如果接下来没有可行的行动，也要终止迭代
+        if len(gameState.getLegalActions(agentIndex)) == 0:
+            return self.evaluationFunction(gameState)
+        #获得当前鬼怪的所有可行操作，并进行遍历,求ExpectValue
+        totalUtil=0
+        for action in gameState.getLegalActions(agentIndex):
+            #如果当前是最后一个鬼怪的agent,那么下-次轮到吃豆人
+            if agentIndex == gameState.getNumAgents()-1:
+                #参数中最后的“0",表示接下来的动作是计算吃豆人的行动影响
+                value=self.getMax(gameState.generateSuccessor(agentIndex, action) , depth+1,0)[0]
+                #因为当前的步骤依然是鬼怪的行动，所以即便下一步是吃豆人的行动，本次计算中依然要求ExpectValue
+                # totalUtil += value
+            else:
+                #参数中最后的agentIndex(大于1),表示接下来的动作是计算鬼怪的行动影响
+                value = self.getExpect(gameState.generateSuccessor(agentIndex, action) , depth , agentIndex+1)
+                totalUtil += value
+        #将totalUtil除以所有可行的动作数， 求得平均值，并返回
+        return totalUtil /len(gameState.getLegalActions(agentIndex))
 
 def betterEvaluationFunction(currentGameState):
     """
