@@ -334,6 +334,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         #如果接下来没有可行的行动，也要终止迭代
         if len(gameState.getLegalActions(agentIndex)) == 0:
             return self.evaluationFunction(gameState)
+
         #获得当前鬼怪的所有可行操作，并进行遍历,求ExpectValue
         totalUtil=0
         for action in gameState.getLegalActions(agentIndex):
@@ -346,7 +347,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             else:
                 #参数中最后的agentIndex(大于1),表示接下来的动作是计算鬼怪的行动影响
                 value = self.getExpect(gameState.generateSuccessor(agentIndex, action) , depth , agentIndex+1)
-                totalUtil += value
+            totalUtil += value
         #将totalUtil除以所有可行的动作数， 求得平均值，并返回
         return totalUtil /len(gameState.getLegalActions(agentIndex))
 
