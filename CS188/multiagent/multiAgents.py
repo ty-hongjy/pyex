@@ -359,7 +359,33 @@ def betterEvaluationFunction(currentGameState):
     DESCRIPTION: <write something here so we know what you did>
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # util.raiseNotDefined()
+    #获得计算需要的初始信息，包括吃豆人位置、食物、鬼怪以及鬼怪为
+    pacmanPos = currentGameState.getPacmanPosition()
+    foods = currentGameState.getFood().asList()
+    ghostStates = currentGameState.getGhostStates()
+    scaredTime=[ghost.scaredTimer for ghost in ghostStates]
+    #先计算最近的食物对吃豆人的影响
+    if len(foods)>0:
+        Foods = [manhattanDistance(food, pacmanPos) for food in foods]
+        #求最近的豆豆的距离
+        nearestFood=min(Foods)
+        #豆豆离我越近，其启发值就必须越大!吃一个豆豆+10,但是还要消耗1点精力移动，所以吃掉隔壁的豆豆得9分
+        foodHeuristic=9/(nearestFood)
+    else:
+        foodHeuristic = 0
 
+    #通过鬼怪和当前pacman的位置计算危险值
+    if len(ghostStates)>0:
+        #将所有鬼怪离当前的位置全部计算出来
+        Ghosts=[manhattanDistance(ghost.configuration.pos, pacmanPos) for ghost in ghostStates]
+        #求最近的鬼怪的曼哈顿距离，其他的鬼怪可以不计
+        nearestGhost = min(Ghosts)
+        dangousScore=-1000 if nearestGhost<2 else 0
+
+    #尽量让鬼怪保持惊吓状态，因为这种状态下的鬼怪可以被吃豆人吃掉
+    totalScaredTimes=sum(scaredTime)
+    # 把下一个状态的得分也计入评价值结果
+    return currentGameState. getScore() + foodHeuristic + dangousScore + totalScaredTimes
 # Abbreviation
 better = betterEvaluationFunction
