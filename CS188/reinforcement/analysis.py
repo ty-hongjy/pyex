@@ -1,3 +1,10 @@
+'''
+Description: 
+Autor: name
+Date: 2024-04-23 14:38:15
+LastEditors: name
+LastEditTime: 2024-05-03 21:35:00
+'''
 # analysis.py
 # -----------
 # Licensing Information:  You are free to use or extend these projects for
@@ -21,7 +28,7 @@
 
 def question2():
     answerDiscount = 0.9
-    answerNoise = 0.2
+    answerNoise = 0.
     return answerDiscount, answerNoise
 
 def question3a():

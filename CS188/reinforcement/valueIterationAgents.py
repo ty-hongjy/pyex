@@ -62,6 +62,18 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        for i in range(self.iterations):
+            states=self.mdp.getStates()
+            temp_counter = util.Counter( )
+            for state in states:
+                maxVal = -float('inf')
+                for action in self.mdp.getPossibleActions(state):
+                    Q = self. computeQValueFromValues(state , action)
+                    if Q>maxVal:
+                        maxVal = Q
+                        temp_counter[state] = maxVal
+            self.values = temp_counter
+            print(self .values)
 
 
     def getValue(self, state):
@@ -77,7 +89,15 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # util.raiseNotDefined()
+        #第一步，先来实现计算Q-Value的功能
+        #把可能的下一-步状态信息进行遍历，并求和
+        total = 0
+        #按照求Q值的公式，进行代码编写
+        for nextState,prob in self.mdp.getTransitionStatesAndProbs(state, action):
+            total += prob * (self.mdp.getReward(state, action, nextState)
+                + self. discount * self.getValue(nextState))
+        return total
 
     def computeActionFromValues(self, state):
         """
@@ -89,7 +109,17 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # util.raiseNotDefined()
+        #初始化
+        maxVal = -float('inf')
+        bestAction = None
+        #对当前状态所有的可能动作进行求Q值的遍历，从中选出最大的Q值作为
+        for action in self.mdp.getPossibleActions(state):
+            Q = self.computeQValueFromValues(state , action)
+            if Q>maxVal:
+                maxVal = Q
+                bestAction = action
+        return bestAction
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
