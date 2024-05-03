@@ -3,7 +3,7 @@ Description:
 Autor: name
 Date: 2024-04-23 14:38:15
 LastEditors: name
-LastEditTime: 2024-05-03 21:35:00
+LastEditTime: 2024-05-03 22:06:06
 '''
 # analysis.py
 # -----------
@@ -31,38 +31,53 @@ def question2():
     answerNoise = 0.
     return answerDiscount, answerNoise
 
+#折扣系数，表示目的地距离带来的折扣
+    # answerDiscount = 0.9
+# 意外率，即以某个概率执行意外的行动
+    # answerNoise = 0
+#生存奖励，其值越低，则Agent更愿意冒风险|
+    # answerLivingReward = 0
+# 第一种方案的目的是降低奖励值高的节点对Agent的吸引力，
+# 并让Agent愿意沿着悬崖前进
 def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.2 # 0.2 is also OK
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+#第二题的目的是提高掉入悬崖的概率，Agent就会避开悬崖
 def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.2
+    answerNoise = 0.2
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+#第三题的目的是增大最右边奖励值高的节点的吸引力
+#并且降低noise,让Agent愿意沿着悬崖前进
 def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+#第四题的目的同样是增大奖励值最高节点的吸引力
+#但是增大Noise,让Agent避开可能调入的悬崖边
 def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9
+    answerNoise = 0.2
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+#第五题的目的是降低所有奖励值节点对Agent的吸引力
+#同时要避开悬崖边，所以适当提高Noise值
 def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0
+    answerNoise = 0.2
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
