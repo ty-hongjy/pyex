@@ -196,4 +196,70 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
 
     def runValueIteration(self):
         "*** YOUR CODE HERE ***"
+        #计算所有状态的前驱节点
+        predecessors = {}
+        #将MPD中的所有state进行遍历
+        for state in self.mdp.getStates():
+            #接下来只要更新这个state即可，但是题目，上要求不更新Terminal节点
+            if not self.mdp.isTerminal(state):
+                #按照同样的方法求V值
+                maxVal=-float('inf')
+                for action in self.mdp.getPossibleActions(state):
+                    #为了保存当前节点的前驱节点，必须调用getTransitionStatesAndProbs得到- 系列节点和概率的组合
+                    for nextState, prob in self.mdp.getTransitionStatesAndProbs(state,action):
+                        #注意，要保存的是前驱节点的信息，所以要以下一个节点作为键值进行索引
+                        if nextState in predecessors:
+                            predecessors[nextState].add(state)
+                        else:
+                            predecessors[nextState]={state}
 
+        #初始化一个空的优先级队列
+        pq = util.PriorityQueue()
+
+        #对所有非终点的状态s进行遍历
+        for s in self.mdp.getStates():
+            # maxQ = -float('inf')
+            if not self.mdp.isTerminal(s):
+                #找到s的V值和最大Q值的差的绝对值diff
+                maxQ = -float('inf')
+                for action in self .mdp . getPossibleActions(s):
+                    Q=self.computeQValueFromValues(s , action)
+                    if Q>maxQ:
+                        maxQ = Q
+                diff = abs(maxQ - self.values[s])
+                #把s按照-diff的值,推到优先级队列中
+                pq.update(s,-diff)
+
+        #按照迭代次数构造循环
+        for _ in range(self. iterations):
+            #如果队列为空，则终止循环
+            if pq. isEmpty():
+                break
+
+            #从队列中弹出一个状态s
+            s = pq.pop()
+
+            #更新s的V值
+            if not self.mdp.isTerminal(s):
+                maxVal = -float('inf')
+                for action in self.mdp.getPossibleActions(s):
+                    Q=self.computeQValueFromValues(s , action)
+                    if Q>maxVal:
+                        maxVal = Q
+
+                #这句话更新的是某个单独的节点，而非上面算法中更新了所有节点的V值
+                self .values[s]=maxVal
+
+            #立刻遍历s的前驱节点并更新它们的状态
+            for p in predecessors[s]:
+                #找到p的V值和从p计算的最大Q值的差的绝对值di ff
+                maxQ = -float('inf')
+                for action in self.mdp.getPossibleActions(p):
+                    Q=self.computeQValueFromValues(p , action)
+                    if Q>maxQ:
+                        maxQ = Q
+                        diff = abs(maxQ - self.values[p])
+
+                #如果diff大于theta的值，则将p以-di ff的优先值放到队列中
+                if diff>self.theta:
+                    pq.update(p, -diff)
