@@ -160,6 +160,22 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
 
     def runValueIteration(self):
         "*** YOUR CODE HERE ***"
+        #保存当前MDP状态
+        states=self.mdp.getStates()
+        for index in range(self.iterations):
+            state=states[index % len(states)]
+            #接下来只要更新这个state即可，但是题目上要求不更新Terminal节点
+            if not self.mdp.isTerminal(state):
+                #按照同样的方法求V值
+                maxVal = -float('inf')
+                for action in self.mdp.getPossibleActions(state):
+                    Q = self.computeQValueFromValues(state , action)
+                    if Q>maxVal:
+                        maxVal = Q
+                        #这句话- -定要放在循环内部，防止把某个状态的V值更新成负无穷
+                        #这句话更新的是某个单独的节点，而非上面算法中更新了所有节点的V值
+                self.values[state] = maxVal
+
 
 class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
     """
