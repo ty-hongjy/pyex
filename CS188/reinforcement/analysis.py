@@ -3,7 +3,7 @@ Description:
 Autor: name
 Date: 2024-04-23 14:38:15
 LastEditors: name
-LastEditTime: 2024-05-03 22:06:06
+LastEditTime: 2024-05-10 14:41:11
 '''
 # analysis.py
 # -----------
@@ -82,6 +82,7 @@ def question3e():
     # If not possible, return 'NOT POSSIBLE'
 
 def question8():
+    return 'NOT POSSIBLE'
     answerEpsilon = None
     answerLearningRate = None
     return answerEpsilon, answerLearningRate
