@@ -75,7 +75,13 @@ class DiscreteDistribution(dict):
         {}
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # raiseNotDefined()
+        #要进行归-化,首先需要求总体样本数量total
+        total = self . total()
+        #根据注释的提醒，total为0的时候不要做任何事情
+        if total!=0:
+            for k,v in self.items():
+                self[k] = v/total
 
     def sample(self):
         """
@@ -99,8 +105,18 @@ class DiscreteDistribution(dict):
         0.0
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # raiseNotDefined()
 
+        #当0<=u<0.2,则返回'a',当0.2<=u<0.6,则返回'b',当0.6<=u<1，则返回'c'
+        u=random.random( )
+        #使用变量alpha表示区间的下限
+        alpha = 0.0
+        for key,value in self.items():
+            #只有当随机数u落在了指定的离散分布区间内，才会返回对应的key即样本
+            if alpha <= u < alpha+(value/self.total()):
+                return key
+            #为了得到下一个分布的区间下限，我们需要不断地更新alpha
+            alpha += value/self.total()
 
 class InferenceModule:
     """
@@ -169,7 +185,20 @@ class InferenceModule:
         Return the probability P(noisyDistance | pacmanPosition, ghostPosition).
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # raiseNotDefined()
+        #根据题目描述，需要判定鬼怪是否已经被送到jail中
+        if ghostPosition == jailPosition:
+            #该分支表示鬼怪在监狱中，即noisyDistance为None的概率为100%
+            if noisyDistance is None:
+                return 1.0
+            #该分支表示鬼怪在监狱中，即noisyDistance不为None的概率为0%
+            else:
+                return 0.0
+        else:
+            if noisyDistance is None:
+                return 0.0
+            else:
+                return busters.getObservationProbability(noisyDistance, manhattanDistance(pacmanPosition, ghostPosition))
 
     def setGhostPosition(self, gameState, ghostPosition, index):
         """
@@ -277,8 +306,20 @@ class ExactInference(InferenceModule):
         position is known.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
-
+        # raiseNotDefined()
+        #获取旧的置信度网络数据
+        oldPD = self.beliefs
+        #获取吃豆人的位置
+        pacmanPosition = gameState.getPacmanPosition()
+        #获得当前地图中监狱的位置
+        jailPosition = self.getJailPosition()
+        #建立新的离散分布对象以存储新的置信度网络数据
+        newPD = DiscreteDistribution()
+        #遍历所有鬼怪可能出现的位置
+        for ghostPosition in self.allPositions:
+            newPD[ghostPosition] = self.getObservationProb(observation, pacmanPosition, ghostPosition, jailPosition)*oldPD[ghostPosition]
+        #将新的置信度网络更新到self.beliefs中
+        self.beliefs=newPD
         self.beliefs.normalize()
 
     def elapseTime(self, gameState):
