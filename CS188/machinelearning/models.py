@@ -27,6 +27,8 @@ class PerceptronModel(object):
         Returns: a node containing a single number (the score)
         """
         "*** YOUR CODE HERE ***"
+        #根据线性代数的基础知识，当x=(1,2,3), 与w发生相乘的结果就是两者的点积
+        return nn.DotProduct(self.w,x)
 
     def get_prediction(self, x):
         """
@@ -35,12 +37,30 @@ class PerceptronModel(object):
         Returns: 1 or -1
         """
         "*** YOUR CODE HERE ***"
+        if nn.as_scalar(self.run(x))>=0:
+            return 1
+        else:
+            return -1
 
     def train(self, dataset):
         """
         Train the perceptron until convergence.
         """
         "*** YOUR CODE HERE ***"
+        #本题中的训练过程要求精确度为100%，即数据集中所有x预测结果，必须和样本中的y保持- -致
+        #所以，我们可以构造一个死循环，不断地使用数据集中的(x , y)来训练我们的模型
+        sholdStop = False
+        while not sholdStop:
+            #在循环中不断获取(x ,y)进行训练
+            for x, y in dataset.iterate_once(batch_size=1):
+                if not self.get_prediction(x) == nn.as_scalar(y):
+                    self.w.update(x, nn.as_scalar(y))
+                    #下方的break表示当前的预测值和y不- -样，所以需要从头再开始训练
+                    break
+            #如果能执行到else分支中的语句，表示所有的预测值都已经和y-致了!
+            else:
+            #为了能让外层循环停下来，我们构造-一个标志变量
+                sholdStop = True
 
 class RegressionModel(object):
     """
