@@ -73,9 +73,14 @@ class RegressionModel(object):
         "*** YOUR CODE HERE ***"
         self.layer_size=200
         #如果bathc_ size为1，表示每一次只用一组数据进行训练，那么带来的问题就是效率非常低下
-        self.batch_size = 1
+        # self.batch_size = 1
+        # self.learning_rate = 0.05
+        # self.layer_number = 2
+
+        self.batch_size = 100
         self.learning_rate = 0.05
-        self.layer_number = 2
+        self.layer_number = 3
+
         #构造参数W和b的集合
         self.W =[]
         self.b =[]
@@ -92,7 +97,7 @@ class RegressionModel(object):
                 self.b.append(nn.Parameter(1,1))
             else:
                 #既不是第一层，也不是最后一层的神经网络，他们的输入和输出参数和相邻层次有关
-                self.w.append(nn.Parameter(self.layer_size , self.layer_size))
+                self.W.append(nn.Parameter(self.layer_size , self.layer_size))
                 self.b.append(nn.Parameter(1, self.layer_size))
 
     def run(self, x):
