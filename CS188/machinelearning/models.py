@@ -71,6 +71,29 @@ class RegressionModel(object):
     def __init__(self):
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
+        self.layer_size=200
+        #如果bathc_ size为1，表示每一次只用一组数据进行训练，那么带来的问题就是效率非常低下
+        self.batch_size = 1
+        self.learning_rate = 0.05
+        self.layer_number = 2
+        #构造参数W和b的集合
+        self.W =[]
+        self.b =[]
+
+        #根据隐藏层的数量，初始化W和b的内容，特别注意W和b的类型是不一样的!
+        for i in range(self.layer_number):
+            if i==0:
+                #第一层神经网络的输入数据为x，此题中x的size为1
+                self.W.append(nn.Parameter(1,self.layer_size))
+                self.b.append(nn.Parameter(1,self.layer_size))
+            elif i==self.layer_number-1:
+                #最后一层神经网络的输出数据为y,此题中y的size为1
+                self.W.append(nn.Parameter(self.layer_size,1))
+                self.b.append(nn.Parameter(1,1))
+            else:
+                #既不是第一层，也不是最后一层的神经网络，他们的输入和输出参数和相邻层次有关
+                self.w.append(nn.Parameter(self.layer_size , self.layer_size))
+                self.b.append(nn.Parameter(1, self.layer_size))
 
     def run(self, x):
         """
@@ -82,6 +105,20 @@ class RegressionModel(object):
             A node with shape (batch_size x 1) containing predicted y-values
         """
         "*** YOUR CODE HERE ***"
+        #构造一个专门存储输入数据的变量，初始值为x
+        input_data = x
+        #依然根据隐藏层的数量，构造循环
+        for i in range(self.layer_number):
+            #参考线性规划的代码，构造循环体
+            fx = nn.Linear(input_data, self.W[i])
+            output_data = nn.AddBias(fx, self.b[i])
+            #根据提示，最后一层神经网络则无需调用激活函数
+            if i==self.layer_number - 1:
+                predicted_y = output_data
+            else:
+            #如果不是最后一层神经网络，则调用激活函数，计算下一层的输入数据
+                input_data =nn.ReLU(output_data)
+        return predicted_y
 
     def get_loss(self, x, y):
         """
@@ -94,12 +131,31 @@ class RegressionModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
+        predicted_y = self.run(x)
+        return nn.SquareLoss(predicted_y, y)
 
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** YOUR CODE HERE ***"
+        #构造存储损失值的变量，在没有达到题目要求的损失精度之前，一直循环
+        loss_number = float('inf')
+        while loss_number>=0.02:
+            #从数据集中获取(x,y)的组合作为训练数据
+            for (x,y) in dataset.iterate_once(self.batch_size):
+                #计算损失值
+                loss=self.get_loss(x,y)
+                print(type(loss))
+                # loss = float(loss)
+                print(type(loss))
+                loss_number = nn.as_scalar(loss)
+                #构造梯度下降算法的实现
+                grad_wrt = nn.gradients(loss, self.W + self.b)
+                #遍历grad_ _wrt中的参数，进行更新
+                for i in range(self.layer_number):
+                    self.W[i].update(grad_wrt[i], -self.learning_rate)
+                    self.b[i].update(grad_wrt[len(self.W)+i],-self.learning_rate)
 
 class DigitClassificationModel(object):
     """
