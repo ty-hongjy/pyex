@@ -185,8 +185,8 @@ class DigitClassificationModel(object):
         # self.learning_rate = 0.05
         # self.layer_number = 2
 
-        self.batch_size = 1000
-        self.learning_rate = 0.05
+        self.batch_size = 500
+        self.learning_rate = 0.3
         self.layer_number = 3
 
         #构造参数W和b的集合
@@ -263,7 +263,7 @@ class DigitClassificationModel(object):
         "*** YOUR CODE HERE ***"
         #构造用于存放精确度的变量，在没有达到题目要求的精确度之前，一直循环
         accuracy = 0
-        while accuracy<=0.98:
+        while accuracy<=0.975:
             #从数据集中获取(x,y)的组合作为训练数据
             for (x,y) in dataset.iterate_once(self.batch_size):
                 #计算损失值
