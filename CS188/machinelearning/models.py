@@ -252,7 +252,7 @@ class DigitClassificationModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
-        #特别注意,本题中的损失函数和上一题不- -样!
+        #特别注意,本题中的损失函数和上一题不一样!
         predicted_y = self.run(x)
         return nn.SoftmaxLoss(predicted_y, y)
 
@@ -296,6 +296,16 @@ class LanguageIDModel(object):
 
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
+        self.learning_rate = 0.01
+        self.batch_size = 10
+        self.threshold = 0.85
+        self.hidden_size = 800
+        self.hidden_bias = nn.Parameter(1,self.num_chars)
+        self.hidden_weights = nn. Parameter(self.num_chars, self.hidden_size)
+        self.b0 = nn.Parameter(1,self.hidden_size)
+        self.weights = nn.Parameter(self.hidden_size, self.num_chars)
+        self.b1 = nn.Parameter(1, self.num_chars)
+        self.final_weights = nn.Parameter(self.num_chars, len(self.languages))
 
     def run(self, xs):
         """
@@ -327,6 +337,29 @@ class LanguageIDModel(object):
                 (also called logits)
         """
         "*** YOUR CODE HERE ***"
+        hidden_state = xs[0]
+        hidden_layer = nn.AddBias(hidden_state, self.hidden_bias)
+        for x in xs[1:]:
+            layer = x
+            #layer_weighted = nn.Linear(layer, self .hidden_weights)
+            #hidden_layer_weighted =nn. Linear(hidden_layer ,self.weights)
+            layer = nn.Add(layer, hidden_layer)
+            layer = nn.Linear(layer, self.hidden_weights)
+            layer = nn.AddBias(layer, self.b0)
+            layer = nn.ReLU(layer)
+            layer = nn.Linear(layer, self.weights)
+            layer = nn.AddBias(layer, self.b1)
+            hidden_layer = layer
+
+        layer = nn.Linear(hidden_layer, self.hidden_weights)
+        layer = nn.AddBias(layer, self.b0)
+        layer = nn. ReLU(layer)
+        layer = nn.Linear(layer, self.weights)
+        layer = nn. AddBias(layer, self.b1)
+        layer = nn. ReLU(layer)
+        y_predictions = nn.Linear(layer, self.final_weights)
+        return y_predictions
+
 
     def get_loss(self, xs, y):
         """
@@ -343,9 +376,27 @@ class LanguageIDModel(object):
         Returns: a loss node
         """
         "*** YOUR CODE HERE ***"
+        predicted_y = self.run(xs)
+        return nn.SoftmaxLoss(predicted_y, y)
 
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** YOUR CODE HERE ***"
+        accuracy = 0
+        while accuracy<self.threshold:
+            #从数据集中获取(x,y)的组合作为训练数据
+            for (x,y) in dataset.iterate_once(self.batch_size):
+                #计算损失值
+                loss=self.get_loss(x,y)
+                #构造梯度下降算法的实现
+                params = [self.weights ,self.b0, self.hidden_weights , self.b1,self.final_weights]
+                gradients=nn.gradients(loss, params)
+                for i in range(len(params)):
+                    param = params[i]
+                    param. update(gradients[i],-self.learning_rate)
+
+            #数据集轮询一遍之后，更新精确度变量
+            accuracy=dataset.get_validation_accuracy()
+            print("Accuracy:",accuracy)
