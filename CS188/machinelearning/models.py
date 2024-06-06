@@ -304,7 +304,7 @@ class DigitClassificationModel(object):
         # self.layer_number = 2
 
         self.batch_size = 500
-        self.learning_rate = 0.3
+        self.learning_rate = 0.4
         self.layer_number = 3
 
         #构造参数W和b的集合
