@@ -275,12 +275,12 @@ class SquareLoss(FunctionNode):
     @staticmethod
     def _backward(gradient, *inputs):
         assert np.asarray(gradient).ndim == 0
-        a=[
-            gradient * (inputs[0] - inputs[1]) / inputs[0].size,
-            gradient * (inputs[1] - inputs[0]) / inputs[0].size
-        ]
-        print(a)
-        print(type(a))
+        # a=[
+        #     gradient * (inputs[0] - inputs[1]) / inputs[0].size,
+        #     gradient * (inputs[1] - inputs[0]) / inputs[0].size
+        # ]
+        # print(a)
+        # print(type(a))
         return [
             gradient * (inputs[0] - inputs[1]) / inputs[0].size,
             gradient * (inputs[1] - inputs[0]) / inputs[0].size
