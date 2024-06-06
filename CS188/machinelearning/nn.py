@@ -267,11 +267,20 @@ class SquareLoss(FunctionNode):
         assert inputs[0].shape == inputs[1].shape, (
             "Input shapes should match, instead got {} and {}".format(
                 format_shape(inputs[0].shape), format_shape(inputs[1].shape)))
+        # a=np.mean(np.square(inputs[0] - inputs[1]) / 2)
+        # print(a)
+        # print(type(a))
         return np.mean(np.square(inputs[0] - inputs[1]) / 2)
 
     @staticmethod
     def _backward(gradient, *inputs):
         assert np.asarray(gradient).ndim == 0
+        a=[
+            gradient * (inputs[0] - inputs[1]) / inputs[0].size,
+            gradient * (inputs[1] - inputs[0]) / inputs[0].size
+        ]
+        print(a)
+        print(type(a))
         return [
             gradient * (inputs[0] - inputs[1]) / inputs[0].size,
             gradient * (inputs[1] - inputs[0]) / inputs[0].size
@@ -390,4 +399,9 @@ def as_scalar(node):
         "Node has shape {}, cannot convert to a scalar".format(
             format_shape(node.data.shape)))
     # return np.asscalar(node.data)
-    return np.ndarray.item(node.data)
+
+    # print(type(node.data))
+    if type(node.data)==np.float64:
+        return node.data
+    else:
+        return np.ndarray.item(node.data)

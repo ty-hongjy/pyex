@@ -151,10 +151,11 @@ class RegressionModel(object):
             for (x,y) in dataset.iterate_once(self.batch_size):
                 #计算损失值
                 loss=self.get_loss(x,y)
-                print(type(loss))
+                # print(type(loss))
                 # loss = float(loss)
-                print(type(loss))
+                # print(type(loss))
                 loss_number = nn.as_scalar(loss)
+                # loss_number = float(loss)
                 #构造梯度下降算法的实现
                 grad_wrt = nn.gradients(loss, self.W + self.b)
                 #遍历grad_ _wrt中的参数，进行更新
