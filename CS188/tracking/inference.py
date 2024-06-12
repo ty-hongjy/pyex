@@ -359,7 +359,12 @@ class ParticleFilter(InferenceModule):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # 所谓的初始化，就是将一堆粒子放到给定的空间中
+        # 假设空间范團为[1,10〕，现在有1000个粒子，如果平均分布，那么1到10各取100次就是这个采样分布，形如：
+        # [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,...7,8,9,10,1,2,3,4,5,6,7,8,9,101
+        self.particles += self.legalPositions*(self.numParticles//len(self.legalPositions))
+        # 还要考虑特殊情况：粒子总数不能整除空间尺寸，比如空间范国为[1,101，但是粒子数量为95
+        self.particles += self.legalPositions[:(self.numParticles%len(self.legalPositions))]
 
     def observeUpdate(self, observation, gameState):
         """
@@ -393,8 +398,13 @@ class ParticleFilter(InferenceModule):
         This function should return a normalized distribution.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
-
+        # 构造商散分布对象用于存放概率分布
+        belief = DiscreteDistribution()
+        # 接着只需要对以粒子为键的宇典对象进行＋1计数，即可得到每一个粒子出现的次数
+        for particle in self.particles:
+            belief[particle] += 1
+        belief.normalize()
+        return belief
 
 class JointParticleFilter(ParticleFilter):
     """
