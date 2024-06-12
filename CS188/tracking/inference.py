@@ -75,9 +75,8 @@ class DiscreteDistribution(dict):
         {}
         """
         "*** YOUR CODE HERE ***"
-        # raiseNotDefined()
         #要进行归-化,首先需要求总体样本数量total
-        total = self . total()
+        total = self.total()
         #根据注释的提醒，total为0的时候不要做任何事情
         if total!=0:
             for k,v in self.items():
@@ -105,8 +104,6 @@ class DiscreteDistribution(dict):
         0.0
         """
         "*** YOUR CODE HERE ***"
-        # raiseNotDefined()
-
         #当0<=u<0.2,则返回'a',当0.2<=u<0.6,则返回'b',当0.6<=u<1，则返回'c'
         u=random.random( )
         #使用变量alpha表示区间的下限
@@ -332,7 +329,26 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # 获取旧的置信度网络数据（其实就是一个离散分布)
+        oldPD = self.beliefs
+        # 获取吃豆人的位置
+        pacmanPosition=gameState.getPacmanPosition()
+        jailPosition=self.getJailPosition()
+        # 建立新的离散分布对象以存储新的置信度网络数据
+        newPD = DiscreteDistribution()
+        # 遍历所有鬼怪所有可能出现的位置，格每一个可能出现的位置都作为初始位置进行汁算
+        for oldPos in self.allPositions:
+            # 根据Time Elapse算法内容，我们得到接下来鬼怪可能存在位置的离散分布
+            newPosDist= self.getPositionDistribution(gameState, oldPos)
+            # 新的置信度期络中的数据需要格所有从oldPos出发达到newPos的可能性进行累加
+            for newPos in self.allPositions:
+                # 考虑到从oldPos到达newPos的概率可能为0，我们可以在这里做一些优化
+                if newPosDist[newPos]>0:
+                    newPD[newPos] += newPosDist[newPos]*oldPD[oldPos]
+        # 将新的置信度网络更新到self.beliefs中
+        self.beliefs = newPD
+        # 最后置信度网络讲行归一化
+        self.beliefs.normalize()
 
     def getBeliefDistribution(self):
         return self.beliefs
@@ -379,7 +395,25 @@ class ParticleFilter(InferenceModule):
         the DiscreteDistribution may be useful.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # 获取吃豆人的位費
+        pacmanPosition = gameState.getPacmanPosition()
+        # 获得当前地图中监戒的位置
+        jailPosition = self.getJailPosition()
+        # 建立新的离散分布对系以存储新的置信度网络数据
+        newPD = DiscreteDistribution()
+        # 本算法通过观聚样本粒子的概率，更新置信度网络中的数据
+        for particle in self. particles:
+            newPD[particle] += self.getObservationProb(observation, pacmanPosition, particle, jailPosition)
+        # 根据注释的提示，需要考虑特殊情况，即置所有粒子的概率总和为0，就调用初始化方法
+        if newPD.total()==0:
+            self.initializeUniformly(gameState)
+        else:
+            # 将新的置信度网络更新到self.beliefs中
+            self.beliefs = newPD
+            # 最后，将置信度网络进行归一化
+            self.beliefs.normalize()
+            #再次生成新的样本粒子（因为置信发网络中的数据发生了变化，所以必须重新米样，以计算新的置信度网络）
+            self.particles = [self.beliefs.sample() for _ in range(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
@@ -387,7 +421,12 @@ class ParticleFilter(InferenceModule):
         gameState.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # 近似推理没有self.beliefs属性，所有的概率需用通过粒子来计算，所以我们只需要便新粒千数据即可
+        # 更新粒子数据的方法，就是从旧的粒子数据中衍生出新的粒子数据
+        for index, particle in enumerate(self.particles):
+            newPosDist = self.getPositionDistribution(gameState, particle)
+            newParticle = newPosDist.sample()
+            self.particles[index] = newParticle
 
     def getBeliefDistribution(self):
         """
