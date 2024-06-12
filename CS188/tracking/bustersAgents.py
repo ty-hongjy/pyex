@@ -139,8 +139,21 @@ class GreedyBustersAgent(BustersAgent):
         """
         pacmanPosition = gameState.getPacmanPosition()
         legal = [a for a in gameState.getLegalPacmanActions()]
+        # 先找到所有还未捕荻的鬼怪
         livingGhosts = gameState.getLivingGhosts()
+        # 求出每一个鬼怪所在位置的离散分布
         livingGhostPositionDistributions = \
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
+        # 求所有鬼怪在地图中最有可能出现的位置
+        # LGPD.araMax(指的是在所谓位置的商散分布中機率最大的那个，即鬼怪最有可能存在的位置
+        GhostPositions = [LGPD.argMax() for LGPD in livingGhostPositionDistributions]
+        # 从上述位置中求出离Pacman最近的鬼怪
+        nearestGhost = min(GhostPositions, key=
+            lambda ghostPos:self.distancer.getDistance(pacmanPosition,ghostPos))
+        # 既然最近的鬼怪已经求出来了，那么就需要找到最合适的动作，即按照给定的action可以让吃豆人商nearestGhost更近
+        action = min(legal, key=
+            lambda a: self.distancer.getDistance(Actions.getSuccessor(pacmanPosition,a), nearestGhost))
+        # 最后，返回这个action即可
+        return action
