@@ -421,11 +421,17 @@ class ParticleFilter(InferenceModule):
         gameState.
         """
         "*** YOUR CODE HERE ***"
+        PosDist={}
         # 近似推理没有self.beliefs属性，所有的概率需用通过粒子来计算，所以我们只需要便新粒千数据即可
         # 更新粒子数据的方法，就是从旧的粒子数据中衍生出新的粒子数据
         for index, particle in enumerate(self.particles):
-            newPosDist = self.getPositionDistribution(gameState, particle)
-            newParticle = newPosDist.sample()
+            # 在项目说明中提示我们要降低对self.getPositionDistribution的调用次数
+            # 为了达到上述目的，我们预先设置一个以particle为键的宇典，值为该particle对应的PositionDistribution
+            if particle not in PosDist.keys():
+                newPosDist = self.getPositionDistribution(gameState, particle)
+                PosDist[particle] = newPosDist
+            # 接着，我们就可以直接使用字典PosDist中的己经计算好的PositionDistribution数据
+            newParticle = PosDist[particle].sample()
             self.particles[index] = newParticle
 
     def getBeliefDistribution(self):
@@ -470,7 +476,16 @@ class JointParticleFilter(ParticleFilter):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        # 所谓联合采样，就是采样空间中的数据，不再是一个单独的值，而是若干数据的组合
+        # 假设有4个鬼怪，则采样数据中的每一个元素都将会是一个四元组
+        # itertools.product的第一个参数表示取值范国，参败repeat表示元组中的元奏数量
+        permutations = list(itertools.product(self.legalPositions, repeat=self.numGhosts))
+        # 题目要求打乱上述排列中的内容，以得到一个乱序的采样空间
+        random.shuffle(permutations)
+        # 所谓的初始化，就是将一堆粒子放到给定的采样空间(即permutations)中
+        self.particles += permutations*(self.numParticles//len(permutations))
+        # 还要考虑特殊情况：粒子总数不能整除空问尺寸，比如空间范国为[1,10]，但是粒子数量为95
+        self.particles += permutations[:(self.numParticles%len(permutations))]
 
     def addGhostAgent(self, agent):
         """
@@ -503,7 +518,25 @@ class JointParticleFilter(ParticleFilter):
         the DiscreteDistribution may be useful.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+       # 获取吃豆人的位置
+        pacmanPosition=gameState.getPacmanPosition()
+        # 建立新的商散分布对象以存储新的置信度网络数据
+        newPD = DiscreteDistribution()
+        # 本算法通过观察样本样本的概率，以更新置信度网络中的数据
+        for particle in self.particles:
+        # 利用眾乘算法，求出在该位置4个鬼怪都存在的橛率
+            prob = 1
+            for i in range(self.numGhosts):
+                prob *=  self.getObservationProb(observation[i], pacmanPosition, particle[i], self.getJailPosition(i))
+            newPD[particle] += prob
+        # 根据注释的提示，需要考處特殊情况，即買所有粒子的概率总和为0，就调用初始化方法
+        if newPD.total()==0:
+            self.initializeUniformly(gameState)
+        else:
+            # 最后，将置信度网络进行归一化
+            newPD.normalize()
+            # 再次生成新的样本粒子(因为買信度网络中的数据发生了变化，所以必须重新采样，以计算新的置信度网络)
+            self.particles = [newPD.sample() for _ in range(self.numParticles)]
 
     def elapseTime(self, gameState):
         """
