@@ -1,3 +1,10 @@
+'''
+Description: 
+Autor: name
+Date: 2024-08-30 17:24:45
+LastEditors: name
+LastEditTime: 2024-08-30 17:41:50
+'''
 from time import time
 from BFS_search import breadth_first_search
 from Astar_search import Astar_search
