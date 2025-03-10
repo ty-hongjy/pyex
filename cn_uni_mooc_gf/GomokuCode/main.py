@@ -1,3 +1,10 @@
+'''
+Description: gf-keda
+Autor: name
+Date: 2024-08-30 17:24:50
+LastEditors: hongjy
+LastEditTime: 2024-08-30 17:29:22
+'''
 from PyQt5.QtWidgets import QApplication
 from window import GomokuWindow
 from game import Gomoku
